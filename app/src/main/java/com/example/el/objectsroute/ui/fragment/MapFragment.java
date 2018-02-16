@@ -1,4 +1,4 @@
-package com.example.el.objectsroute.ui.fragment.map;
+package com.example.el.objectsroute.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,7 +9,6 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.el.objectsroute.R;
 import com.example.el.objectsroute.presentation.presenter.map.MapPresenter;
 import com.example.el.objectsroute.presentation.view.map.MapView;
-import com.example.el.objectsroute.ui.fragment.BaseFragment;
 
 /**
  * Created by el on 12.02.2018.
@@ -18,9 +17,9 @@ import com.example.el.objectsroute.ui.fragment.BaseFragment;
 public class MapFragment extends BaseFragment implements MapView {
 
     @InjectPresenter
-    MapPresenter mapPresenter;
+    MapPresenter presenter;
 
-    public static MapFragment getInstance(){
+    public static MapFragment getInstance() {
         return new MapFragment();
     }
 

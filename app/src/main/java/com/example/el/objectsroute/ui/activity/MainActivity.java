@@ -10,10 +10,10 @@ import com.example.el.objectsroute.R;
 import com.example.el.objectsroute.presentation.presenter.MainPresenter;
 import com.example.el.objectsroute.presentation.view.MainView;
 import com.example.el.objectsroute.router.Router;
-import com.example.el.objectsroute.ui.fragment.authorization.AuthorizationFragment;
-import com.example.el.objectsroute.ui.fragment.map.MapFragment;
-import com.example.el.objectsroute.ui.fragment.objects.ObjectTabsFragment;
-import com.example.el.objectsroute.ui.fragment.registration.RegistrationFragment;
+import com.example.el.objectsroute.ui.fragment.AuthorizationFragment;
+import com.example.el.objectsroute.ui.fragment.MapFragment;
+import com.example.el.objectsroute.ui.fragment.ObjectTabsFragment;
+import com.example.el.objectsroute.ui.fragment.RegistrationFragment;
 
 public class MainActivity extends MvpAppCompatActivity implements Router, MainView {
 
