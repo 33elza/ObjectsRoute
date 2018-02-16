@@ -8,4 +8,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="emailPasswordText">
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="Button">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+
+
 </resources>
