@@ -8,27 +8,26 @@ import android.view.ViewGroup;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.el.objectsroute.R;
-import com.example.el.objectsroute.presentation.presenter.objects.ObjectListPresenter;
-import com.example.el.objectsroute.presentation.view.objects.ObjectListView;
+import com.example.el.objectsroute.presentation.presenter.registration.RegistrationPresenter;
+import com.example.el.objectsroute.presentation.view.registration.RegistrationView;
 
 /**
  * Created by el on 12.02.2018.
  */
 
-public class ObjectListFragment extends BaseFragment implements ObjectListView {
+public class RegistrationFragment extends BaseFragment implements RegistrationView {
 
     @InjectPresenter
-    ObjectListPresenter objectListPresenter;
+    RegistrationPresenter registrationPresenter;
 
-    public static ObjectListFragment getInstance(){
-        return new ObjectListFragment();
+
+    public static RegistrationFragment getInstance(){
+        return new RegistrationFragment();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_objectlist, null);
+        return inflater.inflate(R.layout.fragment_registration, null);
     }
-
 }
-

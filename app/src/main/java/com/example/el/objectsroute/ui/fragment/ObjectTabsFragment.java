@@ -1,4 +1,4 @@
-package com.example.el.objectsroute.ui.fragment.objects;
+package com.example.el.objectsroute.ui.fragment;
 
 
 import android.os.Bundle;
@@ -10,7 +10,6 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.el.objectsroute.R;
 import com.example.el.objectsroute.presentation.presenter.objects.ObjectTabsPresenter;
 import com.example.el.objectsroute.presentation.view.objects.ObjectTabsView;
-import com.example.el.objectsroute.ui.fragment.BaseFragment;
 
 /**
  * Created by el on 13.02.2018.
