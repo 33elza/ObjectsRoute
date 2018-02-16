@@ -10,7 +10,7 @@ import com.example.el.objectsroute.presentation.view.objects.ObjectTabsView;
 
 @InjectViewState
 public class ObjectTabsPresenter extends MvpPresenter<ObjectTabsView> {
-    public  ObjectTabsPresenter(){
-       // getViewState();
+    public ObjectTabsPresenter() {
+        // getViewState();
     }
 }

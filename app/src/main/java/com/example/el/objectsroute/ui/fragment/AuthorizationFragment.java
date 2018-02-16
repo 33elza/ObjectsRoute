@@ -1,4 +1,4 @@
-package com.example.el.objectsroute.ui.fragment.authorization;
+package com.example.el.objectsroute.ui.fragment;
 
 
 import android.os.Bundle;
@@ -10,7 +10,6 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.el.objectsroute.R;
 import com.example.el.objectsroute.presentation.presenter.authorization.AuthorizationPresenter;
 import com.example.el.objectsroute.presentation.view.authorization.AuthorizationView;
-import com.example.el.objectsroute.ui.fragment.BaseFragment;
 
 /**
  * Created by el on 12.02.2018.

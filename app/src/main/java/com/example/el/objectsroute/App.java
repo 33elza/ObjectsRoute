@@ -16,7 +16,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        this.instance = this;
+        instance = this;
     }
 
     public static Router getRouter() {

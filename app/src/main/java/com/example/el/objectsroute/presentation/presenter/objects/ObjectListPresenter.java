@@ -1,5 +1,6 @@
 package com.example.el.objectsroute.presentation.presenter.objects;
 
+import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.example.el.objectsroute.presentation.view.objects.ObjectListView;
 
@@ -7,5 +8,6 @@ import com.example.el.objectsroute.presentation.view.objects.ObjectListView;
  * Created by el on 15.02.2018.
  */
 
+@InjectViewState
 public class ObjectListPresenter extends MvpPresenter<ObjectListView> {
 }

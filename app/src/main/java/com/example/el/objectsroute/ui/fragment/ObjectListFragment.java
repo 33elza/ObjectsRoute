@@ -1,4 +1,4 @@
-package com.example.el.objectsroute.ui.fragment.objects;
+package com.example.el.objectsroute.ui.fragment;
 
 
 import android.os.Bundle;
@@ -10,7 +10,6 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.el.objectsroute.R;
 import com.example.el.objectsroute.presentation.presenter.objects.ObjectListPresenter;
 import com.example.el.objectsroute.presentation.view.objects.ObjectListView;
-import com.example.el.objectsroute.ui.fragment.BaseFragment;
 
 /**
  * Created by el on 12.02.2018.
@@ -19,9 +18,9 @@ import com.example.el.objectsroute.ui.fragment.BaseFragment;
 public class ObjectListFragment extends BaseFragment implements ObjectListView {
 
     @InjectPresenter
-    ObjectListPresenter objectListPresenter;
+    ObjectListPresenter presenter;
 
-    public static ObjectListFragment getInstance(){
+    public static ObjectListFragment getInstance() {
         return new ObjectListFragment();
     }
 
