@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.el.objectsroute.R;
@@ -22,6 +23,7 @@ public class AuthorizationFragment extends BaseFragment implements Authorization
     AuthorizationPresenter presenter;
 
     private Button loginButton;
+    private EditText emailEditText;
 
     public static AuthorizationFragment getInstance() {
         return new AuthorizationFragment();
@@ -38,9 +40,12 @@ public class AuthorizationFragment extends BaseFragment implements Authorization
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_authorization, null);
 
-        loginButton = (Button) rootView.findViewById(R.id.loginButton);
+        loginButton = rootView.findViewById(R.id.loginButton);
+        emailEditText = rootView.findViewById(R.id.emailEditText);
 
         loginButton.setOnClickListener(presenter.getLoginButtonClickListener());
+
+        emailEditText.addTextChangedListener(presenter.getEmailTextWatcher());
 
         presenter.onCreateView();
 

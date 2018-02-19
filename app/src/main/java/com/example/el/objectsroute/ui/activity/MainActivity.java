@@ -14,7 +14,7 @@ import com.example.el.objectsroute.ui.fragment.AuthorizationFragment;
 import com.example.el.objectsroute.ui.fragment.MapFragment;
 import com.example.el.objectsroute.ui.fragment.ObjectTabsFragment;
 
-public class MainActivity extends MvpAppCompatActivity implements Router, MainView {
+public class MainActivity extends MvpAppCompatActivity implements MainView {
 
     @InjectPresenter
     MainPresenter presenter;
@@ -23,14 +23,8 @@ public class MainActivity extends MvpAppCompatActivity implements Router, MainVi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        App.setRouter(this);
 
         presenter.onCreate();
-
-        //временная
-        //App.getRouter().goToObjectList();
-        App.getRouter().goToAuthorization();
-        // App.getRouter().goToMap();
     }
 
     @Override
@@ -45,7 +39,6 @@ public class MainActivity extends MvpAppCompatActivity implements Router, MainVi
     @Override
     public void goBack() {
         onBackPressed();
-
     }
 
     @Override

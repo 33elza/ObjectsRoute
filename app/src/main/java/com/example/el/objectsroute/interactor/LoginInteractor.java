@@ -2,7 +2,7 @@ package com.example.el.objectsroute.interactor;
 
 import com.example.el.objectsroute.dataclass.Response;
 import com.example.el.objectsroute.repository.ISettingsRepository;
-import com.example.el.objectsroute.repository.SharedPreferenciesRepository;
+import com.example.el.objectsroute.repository.SharedPreferencesRepository;
 
 import io.reactivex.Single;
 import io.reactivex.functions.Consumer;
@@ -13,7 +13,7 @@ import io.reactivex.functions.Consumer;
 
 public class LoginInteractor {
 
-    private ISettingsRepository settingsRepository = SharedPreferenciesRepository.getInstance();
+    private ISettingsRepository settingsRepository = SharedPreferencesRepository.getInstance();
 
     public Single<Response<String>> login(String login, String password) {
 

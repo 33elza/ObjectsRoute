@@ -10,7 +10,5 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
 
 @StateStrategyType(SingleStateStrategy.class)
-public interface AuthorizationView extends MvpView {
-
-
+public interface AuthorizationView extends BaseView {
 }
