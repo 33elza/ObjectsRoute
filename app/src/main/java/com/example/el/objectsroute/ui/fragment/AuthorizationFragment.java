@@ -5,11 +5,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.el.objectsroute.R;
-import com.example.el.objectsroute.presentation.presenter.authorization.AuthorizationPresenter;
-import com.example.el.objectsroute.presentation.view.authorization.AuthorizationView;
+import com.example.el.objectsroute.presentation.presenter.AuthorizationPresenter;
+import com.example.el.objectsroute.presentation.view.AuthorizationView;
 
 /**
  * Created by el on 12.02.2018.
@@ -20,8 +21,16 @@ public class AuthorizationFragment extends BaseFragment implements Authorization
     @InjectPresenter
     AuthorizationPresenter presenter;
 
+    private Button loginButton;
+
     public static AuthorizationFragment getInstance() {
         return new AuthorizationFragment();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        presenter.onCreate(getArguments());
     }
 
     @Override
@@ -29,9 +38,12 @@ public class AuthorizationFragment extends BaseFragment implements Authorization
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_authorization, null);
 
-        presenter.onCreateView(getArguments());
+        loginButton = (Button) rootView.findViewById(R.id.loginButton);
+
+        loginButton.setOnClickListener(presenter.getLoginButtonClickListener());
+
+        presenter.onCreateView();
 
         return rootView;
     }
-
 }

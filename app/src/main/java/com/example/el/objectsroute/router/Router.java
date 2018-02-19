@@ -10,8 +10,6 @@ public interface Router {
 
     void goBack();
 
-    void goToRegister();
-
     void goToAuthorization();
 
     void goToObjectList();

@@ -13,7 +13,6 @@ import com.example.el.objectsroute.router.Router;
 import com.example.el.objectsroute.ui.fragment.AuthorizationFragment;
 import com.example.el.objectsroute.ui.fragment.MapFragment;
 import com.example.el.objectsroute.ui.fragment.ObjectTabsFragment;
-import com.example.el.objectsroute.ui.fragment.RegistrationFragment;
 
 public class MainActivity extends MvpAppCompatActivity implements Router, MainView {
 
@@ -50,15 +49,6 @@ public class MainActivity extends MvpAppCompatActivity implements Router, MainVi
     }
 
     @Override
-    public void goToRegister() {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container, RegistrationFragment.getInstance())
-                .addToBackStack(null)
-                .commit();
-    }
-
-    @Override
     public void goToAuthorization() {
         setTitle(R.string.authorization_title);
         getSupportFragmentManager()
@@ -75,9 +65,7 @@ public class MainActivity extends MvpAppCompatActivity implements Router, MainVi
                 .replace(R.id.container, ObjectTabsFragment.getInstance())
                 .addToBackStack(null)
                 .commit();
-
     }
-
 
     @Override
     public void showMessage(CharSequence message) {

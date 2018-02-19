@@ -1,8 +1,8 @@
-package com.example.el.objectsroute.presentation.presenter.map;
+package com.example.el.objectsroute.presentation.presenter;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import com.example.el.objectsroute.presentation.view.map.MapView;
+import com.example.el.objectsroute.presentation.view.MapView;
 
 /**
  * Created by el on 15.02.2018.

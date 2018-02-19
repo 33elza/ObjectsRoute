@@ -1,4 +1,4 @@
-package com.example.el.objectsroute.presentation.view.objects;
+package com.example.el.objectsroute.presentation.view;
 
 import com.arellomobile.mvp.MvpView;
 import com.arellomobile.mvp.viewstate.strategy.SingleStateStrategy;

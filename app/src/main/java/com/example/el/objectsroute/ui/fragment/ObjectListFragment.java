@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.el.objectsroute.R;
-import com.example.el.objectsroute.presentation.presenter.objects.ObjectListPresenter;
-import com.example.el.objectsroute.presentation.view.objects.ObjectListView;
+import com.example.el.objectsroute.presentation.presenter.ObjectListPresenter;
+import com.example.el.objectsroute.presentation.view.ObjectListView;
 
 /**
  * Created by el on 12.02.2018.
