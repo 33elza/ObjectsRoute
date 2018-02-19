@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">ObjectsRoute</string>
+    <string name="email_hint">Введите e-mail</string>
+    <string name="password_hint">Введите пароль</string>
+    <string name="authorization_title">Авторизация</string>
+    <string name="login_button">Войти</string>
+    <string name="register_button">Зарегистрироваться</string>
 </resources>

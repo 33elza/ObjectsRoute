@@ -60,6 +60,7 @@ public class MainActivity extends MvpAppCompatActivity implements Router, MainVi
 
     @Override
     public void goToAuthorization() {
+        setTitle(R.string.authorization_title);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.container, AuthorizationFragment.getInstance())
