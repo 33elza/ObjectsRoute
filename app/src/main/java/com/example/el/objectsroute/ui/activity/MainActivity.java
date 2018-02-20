@@ -5,11 +5,9 @@ import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.example.el.objectsroute.App;
 import com.example.el.objectsroute.R;
 import com.example.el.objectsroute.presentation.presenter.MainPresenter;
 import com.example.el.objectsroute.presentation.view.MainView;
-import com.example.el.objectsroute.router.Router;
 import com.example.el.objectsroute.ui.fragment.AuthorizationFragment;
 import com.example.el.objectsroute.ui.fragment.MapFragment;
 import com.example.el.objectsroute.ui.fragment.ObjectTabsFragment;

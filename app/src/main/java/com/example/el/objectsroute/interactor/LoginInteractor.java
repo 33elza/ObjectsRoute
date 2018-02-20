@@ -17,7 +17,7 @@ public class LoginInteractor {
 
     public Single<Response<String>> login(String login, String password) {
 
-        return Single.just(new Response<String>()).doOnSuccess(new Consumer<Response<String>>() {
+        return Single.just(new Response<String>("token11111")).doOnSuccess(new Consumer<Response<String>>() {
             @Override
             public void accept(Response<String> response) throws Exception {
                 settingsRepository.saveAccessToken(response.getData());
