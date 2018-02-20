@@ -3,7 +3,6 @@ package com.example.el.objectsroute.ui.fragment;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
-import com.example.el.objectsroute.R;
 import com.example.el.objectsroute.presentation.view.BaseView;
 
 /**

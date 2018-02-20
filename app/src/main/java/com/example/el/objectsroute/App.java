@@ -1,6 +1,7 @@
 package com.example.el.objectsroute;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.example.el.objectsroute.router.Router;
 
@@ -25,5 +26,9 @@ public class App extends Application {
 
     public static void setRouter(Router router) {
         instance.router = router;
+    }
+
+    public static Context getAppContext() {
+        return instance.getApplicationContext();
     }
 }
