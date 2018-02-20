@@ -54,17 +54,20 @@ public class AuthorizationPresenter extends MvpPresenter<AuthorizationView> {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if ((emailValidator.validate(email, new BaseValidator.Callback() {
+                boolean isValidEmail = emailValidator.validate(email, new BaseValidator.Callback() {
                     @Override
                     public void onError(int error) {
                         getViewState().showError(error);
                     }
-                })) && (passwordValidator.validate(password, new BaseValidator.Callback() {
+                });
+                boolean isValidPassword = passwordValidator.validate(password, new BaseValidator.Callback() {
                     @Override
                     public void onError(int error) {
                         getViewState().showError(error);
                     }
-                }))) {
+                });
+
+                if (isValidEmail && isValidPassword) {
                     login();
                 }
             }
