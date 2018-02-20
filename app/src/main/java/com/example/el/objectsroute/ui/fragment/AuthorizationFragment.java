@@ -1,6 +1,7 @@
 package com.example.el.objectsroute.ui.fragment;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ public class AuthorizationFragment extends BaseFragment implements Authorization
 
     private Button loginButton;
     private EditText emailEditText;
+    private EditText passwordEditText;
 
     public static AuthorizationFragment getInstance() {
         return new AuthorizationFragment();
@@ -42,10 +44,12 @@ public class AuthorizationFragment extends BaseFragment implements Authorization
 
         loginButton = rootView.findViewById(R.id.loginButton);
         emailEditText = rootView.findViewById(R.id.emailEditText);
+        passwordEditText = rootView.findViewById(R.id.passwordEditText);
 
         loginButton.setOnClickListener(presenter.getLoginButtonClickListener());
 
         emailEditText.addTextChangedListener(presenter.getEmailTextWatcher());
+        passwordEditText.addTextChangedListener(presenter.getPasswordTextWatcher());
 
         presenter.onCreateView();
 
