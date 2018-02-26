@@ -17,4 +17,8 @@ public class ObjectVisitation {
     private int time;
     private String instruments;
 
+    public ObjectVisitation(String name, String address) {
+        this.name = name;
+        this.address = address;
+    }
 }

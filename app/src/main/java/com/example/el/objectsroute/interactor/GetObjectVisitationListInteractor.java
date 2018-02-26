@@ -18,6 +18,10 @@ public class GetObjectVisitationListInteractor {
 
         final List<ObjectVisitation> visitationList = new ArrayList<>();
 
+        visitationList.add(new ObjectVisitation("Объект 1", "г.Ульяновск, ул. Промышленная, 5"));
+        visitationList.add(new ObjectVisitation("Объект 2", "г.Ульяновск, ул. Корунковой, 15"));
+        visitationList.add(new ObjectVisitation("Объект 3", "г.Ульяновск, ул. Артёма, 52"));
+
         return Observable.just(new Response<List<ObjectVisitation>>(visitationList));
     }
 }
