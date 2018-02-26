@@ -20,7 +20,6 @@ public class ObjectTabsFragment extends BaseFragment implements ObjectTabsView {
     @InjectPresenter
     ObjectTabsPresenter presenter;
 
-
     public static ObjectTabsFragment getInstance() {
         ObjectTabsFragment fragment = new ObjectTabsFragment();
         return fragment;
@@ -29,6 +28,8 @@ public class ObjectTabsFragment extends BaseFragment implements ObjectTabsView {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_objecttabs, null);
+        final View rootView = inflater.inflate(R.layout.fragment_objecttabs, null);
+
+        return rootView;
     }
 }

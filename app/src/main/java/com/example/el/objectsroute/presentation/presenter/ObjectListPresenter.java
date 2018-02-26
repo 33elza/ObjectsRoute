@@ -10,4 +10,5 @@ import com.example.el.objectsroute.presentation.view.ObjectListView;
 
 @InjectViewState
 public class ObjectListPresenter extends MvpPresenter<ObjectListView> {
+
 }
