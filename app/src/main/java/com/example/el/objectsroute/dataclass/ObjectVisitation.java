@@ -8,5 +8,13 @@ public class ObjectVisitation {
 
     private long id;
     private boolean isVisited;
-    private Object object;
+    private String name;
+    private String address;
+    private float lat;
+    private float lng;
+    private String priority;
+    private String work;
+    private int time;
+    private String instruments;
+
 }

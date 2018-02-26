@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.el.objectsroute.R;
@@ -20,6 +21,8 @@ public class ObjectTabsFragment extends BaseFragment implements ObjectTabsView {
     @InjectPresenter
     ObjectTabsPresenter presenter;
 
+    private Button button;
+
 
     public static ObjectTabsFragment getInstance() {
         ObjectTabsFragment fragment = new ObjectTabsFragment();
@@ -29,6 +32,8 @@ public class ObjectTabsFragment extends BaseFragment implements ObjectTabsView {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_objecttabs, null);
+        final View rootView = inflater.inflate(R.layout.fragment_objecttabs, null);
+
+        return rootView;
     }
 }
