@@ -13,6 +13,7 @@ import com.example.el.objectsroute.interactor.LoginInteractor;
 import com.example.el.objectsroute.presentation.view.AuthorizationView;
 import com.example.el.objectsroute.utils.validator.BaseValidator;
 import com.example.el.objectsroute.utils.validator.EmailValidator;
+import com.example.el.objectsroute.utils.validator.PasswordValidator;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -26,11 +27,14 @@ public class AuthorizationPresenter extends MvpPresenter<AuthorizationView> {
 
     private Disposable loginDisposable;
     private EmailValidator emailValidator;
+    private PasswordValidator passwordValidator;
 
     private String email;
+    private String password;
 
     public void onCreate(Bundle arguments) {
         emailValidator = new EmailValidator();
+        passwordValidator = new PasswordValidator();
     }
 
     public void onCreateView() {
@@ -50,14 +54,25 @@ public class AuthorizationPresenter extends MvpPresenter<AuthorizationView> {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (emailValidator.validate(email, new BaseValidator.Callback() {
+                if (!emailValidator.validate(email, new BaseValidator.Callback() {
                     @Override
                     public void onError(int error) {
                         getViewState().showError(error);
                     }
                 })) {
-                    login();
+                    return;
                 }
+
+                if (!passwordValidator.validate(password, new BaseValidator.Callback() {
+                    @Override
+                    public void onError(int error) {
+                        getViewState().showError(error);
+                    }
+                })) {
+                    return;
+                }
+
+                login();
             }
         };
     }
@@ -67,7 +82,7 @@ public class AuthorizationPresenter extends MvpPresenter<AuthorizationView> {
             loginDisposable.dispose();
         }
         loginDisposable = new LoginInteractor()
-                .login(email, "")
+                .login(email, password)
                 .subscribe(new Consumer<Response>() {
                     @Override
                     public void accept(Response response) throws Exception {
@@ -91,6 +106,25 @@ public class AuthorizationPresenter extends MvpPresenter<AuthorizationView> {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 email = charSequence.toString();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        };
+    }
+
+    public TextWatcher getPasswordTextWatcher() {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                password = charSequence.toString();
             }
 
             @Override

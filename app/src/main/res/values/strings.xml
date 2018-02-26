@@ -7,4 +7,7 @@
 
     <!--Errors-->
     <string name="empty_email_error">E-mail не заполнен</string>
+    <string name="invalid_email_error">Указан неверный адрес электронной почты</string>
+    <string name="empty_password_error">Введите пароль</string>
+    <string name="invalid_password_error">Пароль должен содержать минимум 8 символов, по крайней мере одна буква и одно число</string>
 </resources>
