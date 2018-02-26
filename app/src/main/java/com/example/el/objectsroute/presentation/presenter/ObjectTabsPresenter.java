@@ -1,7 +1,5 @@
 package com.example.el.objectsroute.presentation.presenter;
 
-import android.view.View;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.example.el.objectsroute.presentation.view.ObjectTabsView;
