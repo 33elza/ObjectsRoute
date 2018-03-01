@@ -4,6 +4,9 @@
     <string name="password_hint">Введите пароль</string>
     <string name="authorization_title">Авторизация</string>
     <string name="login_button">Войти</string>
+    <string name="visit_text">Посетить</string>
+    <string name="make_route_button">Построить маршрут</string>
+
 
     <!--Errors-->
     <string name="empty_email_error">E-mail не заполнен</string>
