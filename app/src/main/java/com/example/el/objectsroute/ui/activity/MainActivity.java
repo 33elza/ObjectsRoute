@@ -10,7 +10,7 @@ import com.example.el.objectsroute.presentation.presenter.MainPresenter;
 import com.example.el.objectsroute.presentation.view.MainView;
 import com.example.el.objectsroute.ui.fragment.AuthorizationFragment;
 import com.example.el.objectsroute.ui.fragment.MapFragment;
-import com.example.el.objectsroute.ui.fragment.ObjectTabsFragment;
+import com.example.el.objectsroute.ui.fragment.ObjectListFragment;
 
 public class MainActivity extends MvpAppCompatActivity implements MainView {
 
@@ -53,7 +53,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
     public void goToObjectList() {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.container, ObjectTabsFragment.getInstance())
+                .replace(R.id.container, ObjectListFragment.getInstance())
                 .addToBackStack(null)
                 .commit();
     }

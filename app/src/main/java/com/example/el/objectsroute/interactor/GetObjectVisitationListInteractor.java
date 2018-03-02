@@ -2,8 +2,9 @@ package com.example.el.objectsroute.interactor;
 
 import com.example.el.objectsroute.dataclass.ObjectVisitation;
 import com.example.el.objectsroute.dataclass.Response;
+import com.example.el.objectsroute.repository.INetworkRepository;
+import com.example.el.objectsroute.repository.NetworkRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -14,14 +15,9 @@ import io.reactivex.Observable;
 
 public class GetObjectVisitationListInteractor {
 
-    public Observable<Response<List<ObjectVisitation>>> getObjectList(List<ObjectVisitation> objectList) {
+    private INetworkRepository networkRepository = NetworkRepository.getInstance();
 
-        final List<ObjectVisitation> visitationList = new ArrayList<>();
-
-        visitationList.add(new ObjectVisitation("Объект 1", "г.Ульяновск, ул. Промышленная, 5"));
-        visitationList.add(new ObjectVisitation("Объект 2", "г.Ульяновск, ул. Корунковой, 15"));
-        visitationList.add(new ObjectVisitation("Объект 3", "г.Ульяновск, ул. Артёма, 52"));
-
-        return Observable.just(new Response<List<ObjectVisitation>>(visitationList));
+    public Observable<Response<List<ObjectVisitation>>> getObjectList() {
+        return networkRepository.getObjectList();
     }
 }
