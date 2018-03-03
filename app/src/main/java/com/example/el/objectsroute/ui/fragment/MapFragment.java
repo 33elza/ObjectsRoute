@@ -32,7 +32,7 @@ public class MapFragment extends BaseFragment implements MapView {
     private GoogleMap map;
     private com.google.android.gms.maps.MapView mapView;
     private LatLngBounds.Builder boundsBuilder;
-    private final int boundsPadding = 50;
+    private final int BOUNDS_PADDING = 50;
 
     private List<ObjectVisitation> objects;
 
@@ -61,7 +61,7 @@ public class MapFragment extends BaseFragment implements MapView {
                 map = googleMap;
 
                 drawMarkers();
-                map.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), boundsPadding));
+                map.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), BOUNDS_PADDING));
             }
         });
         return rootView;
