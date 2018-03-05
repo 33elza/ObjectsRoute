@@ -1,9 +1,11 @@
 package com.example.el.objectsroute.presentation.presenter;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+import com.example.el.objectsroute.App;
 import com.example.el.objectsroute.dataclass.ObjectVisitation;
 import com.example.el.objectsroute.dataclass.Response;
 import com.example.el.objectsroute.interactor.GetObjectVisitationListInteractor;
@@ -26,12 +28,8 @@ public class ObjectListPresenter extends MvpPresenter<ObjectListView> {
     private List<ObjectVisitation> objects;
 
     public void onCreate(Bundle arguments) {
-    }
-
-    public void onStart() {
         if (objects == null) getObjects();
     }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -58,5 +56,14 @@ public class ObjectListPresenter extends MvpPresenter<ObjectListView> {
                         }
                     }
                 });
+    }
+
+    public View.OnClickListener getMakeRouteButtonClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                App.getRouter().goToMap();
+            }
+        };
     }
 }
