@@ -2,6 +2,7 @@ package com.example.el.objectsroute.ui.fragment;
 
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,7 +64,7 @@ public class MapFragment extends BaseFragment implements MapView {
         mapView = rootView.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
 
-        View bottomSheet = rootView.findViewById(R.id.bottom_sheet_info);
+        final View bottomSheet = rootView.findViewById(R.id.bottom_sheet_info);
         infoBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
         infoBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
@@ -71,9 +72,6 @@ public class MapFragment extends BaseFragment implements MapView {
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 map = googleMap;
-
-                Log.d("MAP", "map is ready");
-
                 drawMarkers();
 
                 final int width = getResources().getDisplayMetrics().widthPixels;
@@ -86,7 +84,7 @@ public class MapFragment extends BaseFragment implements MapView {
                     public boolean onMarkerClick(Marker marker) {
 
                         object = (ObjectVisitation) marker.getTag();
-                        setInfoBottomSheetBehavior(object, rootView);
+                        setInfoBottomSheetBehavior(object, new ObjectInfoViewHolder(rootView));
 
                         if (infoBottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
                             infoBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
@@ -143,38 +141,42 @@ public class MapFragment extends BaseFragment implements MapView {
         boundsBuilder = new LatLngBounds.Builder();
 
         for (ObjectVisitation object : objects) {
-            Marker marker = map.addMarker(new MarkerOptions()
+            final Marker marker = map.addMarker(new MarkerOptions()
                     .position(new LatLng(object.getLat(), object.getLng())).title(object.getName()));
             marker.setTag(object);
             boundsBuilder.include(new LatLng(object.getLat(), object.getLng()));
         }
     }
 
-    private void setInfoBottomSheetBehavior(ObjectVisitation object, View rootView) {
+    private void setInfoBottomSheetBehavior(ObjectVisitation object, ObjectInfoViewHolder holder) {
         if (object == null) return;
 
-        TextView nameTextView = rootView.findViewById(R.id.objectNameTextView);
-        nameTextView.setText(object.getName());
+        holder.nameTextView.setText(object.getName());
+        holder.addressTextView.setText(object.getAddress());
+        holder.priorityTextView.setText(object.getPriority());
+        holder.workTextView.setText(object.getWork());
+        holder.instrumentsTextView.setText(object.getInstruments());
+    }
 
-        TextView addressTextView = rootView.findViewById(R.id.addressTextView);
-        addressTextView.setText(object.getAddress());
+    class ObjectInfoViewHolder {
+        private final TextView addressTextView;
+        private final TextView nameTextView;
+        private final TextView workTextView;
+        private final TextView instrumentsTextView;
+        private final TextView priorityTextView;
 
-        TextView priorityTextView = rootView.findViewById(R.id.priorityTextView);
-        priorityTextView.setText(object.getPriority());
+        public ObjectInfoViewHolder(View rootView) {
+            addressTextView = rootView.findViewById(R.id.addressTextView);
+            nameTextView = rootView.findViewById(R.id.objectNameTextView);
+            workTextView = rootView.findViewById(R.id.workTextView);
+            instrumentsTextView = rootView.findViewById(R.id.instrumentsTextView);
+            priorityTextView = rootView.findViewById(R.id.priorityTextView);
 
-        TextView workTextView = rootView.findViewById(R.id.workTextView);
-        workTextView.setText(object.getWork());
-
-        TextView instrumentsTextView = rootView.findViewById(R.id.instrumentsTextView);
-        instrumentsTextView.setText(object.getInstruments());
-
-        TextView visitTextView = rootView.findViewById(R.id.visitTextView);
-        visitTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
+            rootView.findViewById(R.id.visitTextView).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                }
+            });
+        }
     }
 }
