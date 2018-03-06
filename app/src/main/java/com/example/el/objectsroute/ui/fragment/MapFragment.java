@@ -2,13 +2,10 @@ package com.example.el.objectsroute.ui.fragment;
 
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.el.objectsroute.R;
@@ -42,8 +39,9 @@ public class MapFragment extends BaseFragment implements MapView {
 
     private BottomSheetBehavior infoBottomSheetBehavior;
 
+    private ObjectInfoViewHolder objectInfoViewHolder;
+
     private List<ObjectVisitation> objects;
-    private ObjectVisitation object;
 
     public static MapFragment getInstance() {
         return new MapFragment();
@@ -58,13 +56,14 @@ public class MapFragment extends BaseFragment implements MapView {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         final View rootView = inflater.inflate(R.layout.fragment_map, null);
 
         mapView = rootView.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
 
         final View bottomSheet = rootView.findViewById(R.id.bottom_sheet_info);
+        objectInfoViewHolder = new ObjectInfoViewHolder(bottomSheet);
+
         infoBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
         infoBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
@@ -74,28 +73,21 @@ public class MapFragment extends BaseFragment implements MapView {
                 map = googleMap;
                 drawMarkers();
 
-                final int width = getResources().getDisplayMetrics().widthPixels;
-                final int height = getResources().getDisplayMetrics().heightPixels;
-
-                map.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), width, height, BOUNDS_PADDING));
+                map.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(),
+                        getResources().getDisplayMetrics().widthPixels,
+                        getResources().getDisplayMetrics().heightPixels,
+                        BOUNDS_PADDING));
 
                 map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
-
-                        presenter.OnMarkerClicked(object);
-
-                        object = (ObjectVisitation) marker.getTag();
-                        setInfoBottomSheetBehavior(object, new ObjectInfoViewHolder(rootView));
-
-                        if (infoBottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
-                            infoBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                        }
+                        presenter.OnMarkerClicked((ObjectVisitation) marker.getTag());
                         return false;
                     }
                 });
             }
         });
+
         return rootView;
     }
 
@@ -137,7 +129,11 @@ public class MapFragment extends BaseFragment implements MapView {
 
     @Override
     public void showObjectInfo(ObjectVisitation object) {
+        setInfoBottomSheetBehavior(object);
 
+        if (infoBottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
+            infoBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        }
     }
 
     private void drawMarkers() {
@@ -156,14 +152,14 @@ public class MapFragment extends BaseFragment implements MapView {
         }
     }
 
-    private void setInfoBottomSheetBehavior(ObjectVisitation object, ObjectInfoViewHolder holder) {
+    private void setInfoBottomSheetBehavior(ObjectVisitation object) {
         if (object == null) return;
 
-        holder.nameTextView.setText(object.getName());
-        holder.addressTextView.setText(object.getAddress());
-        holder.priorityTextView.setText(object.getPriority());
-        holder.workTextView.setText(object.getWork());
-        holder.instrumentsTextView.setText(object.getInstruments());
+        objectInfoViewHolder.nameTextView.setText(object.getName());
+        objectInfoViewHolder.addressTextView.setText(object.getAddress());
+        objectInfoViewHolder.priorityTextView.setText(object.getPriority());
+        objectInfoViewHolder.workTextView.setText(object.getWork());
+        objectInfoViewHolder.instrumentsTextView.setText(object.getInstruments());
     }
 
     private class ObjectInfoViewHolder {

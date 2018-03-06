@@ -1,7 +1,6 @@
 package com.example.el.objectsroute.presentation.presenter;
 
 import android.os.Bundle;
-import android.support.design.widget.BottomSheetBehavior;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
@@ -9,9 +8,6 @@ import com.example.el.objectsroute.dataclass.ObjectVisitation;
 import com.example.el.objectsroute.dataclass.Response;
 import com.example.el.objectsroute.interactor.GetObjectVisitationListInteractor;
 import com.example.el.objectsroute.presentation.view.MapView;
-import com.example.el.objectsroute.ui.fragment.MapFragment;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.Marker;
 
 import java.util.List;
 
@@ -62,6 +58,6 @@ public class MapPresenter extends MvpPresenter<MapView> {
     }
 
     public void OnMarkerClicked (ObjectVisitation object) {
-
+        getViewState().showObjectInfo(object);
     }
 }
