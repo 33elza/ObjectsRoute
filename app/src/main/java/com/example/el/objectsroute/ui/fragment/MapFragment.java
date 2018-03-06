@@ -1,9 +1,13 @@
 package com.example.el.objectsroute.ui.fragment;
 
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetBehavior;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.el.objectsroute.R;
@@ -15,6 +19,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
@@ -34,7 +39,10 @@ public class MapFragment extends BaseFragment implements MapView {
     private LatLngBounds.Builder boundsBuilder;
     private final int BOUNDS_PADDING = 50;
 
+    private BottomSheetBehavior infoBottomSheetBehavior;
+
     private List<ObjectVisitation> objects;
+    private ObjectVisitation object;
 
     public static MapFragment getInstance() {
         return new MapFragment();
@@ -55,13 +63,37 @@ public class MapFragment extends BaseFragment implements MapView {
         mapView = rootView.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
 
+        View bottomSheet = rootView.findViewById(R.id.bottom_sheet_info);
+        infoBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+        infoBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
         mapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 map = googleMap;
 
+                Log.d("MAP", "map is ready");
+
                 drawMarkers();
-                map.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), BOUNDS_PADDING));
+
+                final int width = getResources().getDisplayMetrics().widthPixels;
+                final int height = getResources().getDisplayMetrics().heightPixels;
+
+                map.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), width, height, BOUNDS_PADDING));
+
+                map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+
+                        object = (ObjectVisitation) marker.getTag();
+                        setInfoBottomSheetBehavior(object, rootView);
+
+                        if (infoBottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
+                            infoBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                        }
+                        return false;
+                    }
+                });
             }
         });
         return rootView;
@@ -111,9 +143,38 @@ public class MapFragment extends BaseFragment implements MapView {
         boundsBuilder = new LatLngBounds.Builder();
 
         for (ObjectVisitation object : objects) {
-            map.addMarker(new MarkerOptions()
+            Marker marker = map.addMarker(new MarkerOptions()
                     .position(new LatLng(object.getLat(), object.getLng())).title(object.getName()));
+            marker.setTag(object);
             boundsBuilder.include(new LatLng(object.getLat(), object.getLng()));
         }
+    }
+
+    private void setInfoBottomSheetBehavior(ObjectVisitation object, View rootView) {
+        if (object == null) return;
+
+        TextView nameTextView = rootView.findViewById(R.id.objectNameTextView);
+        nameTextView.setText(object.getName());
+
+        TextView addressTextView = rootView.findViewById(R.id.addressTextView);
+        addressTextView.setText(object.getAddress());
+
+        TextView priorityTextView = rootView.findViewById(R.id.priorityTextView);
+        priorityTextView.setText(object.getPriority());
+
+        TextView workTextView = rootView.findViewById(R.id.workTextView);
+        workTextView.setText(object.getWork());
+
+        TextView instrumentsTextView = rootView.findViewById(R.id.instrumentsTextView);
+        instrumentsTextView.setText(object.getInstruments());
+
+        TextView visitTextView = rootView.findViewById(R.id.visitTextView);
+        visitTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
     }
 }
