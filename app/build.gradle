@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 
-final String SUPPORT_VERSION = "26.1.0"
+ext {
+    SUPPORT_VERSION = "26.1.0"
+}
 
 android {
     compileSdkVersion 26

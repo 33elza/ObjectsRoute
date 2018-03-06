@@ -83,6 +83,8 @@ public class MapFragment extends BaseFragment implements MapView {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
 
+                        presenter.OnMarkerClicked(object);
+
                         object = (ObjectVisitation) marker.getTag();
                         setInfoBottomSheetBehavior(object, new ObjectInfoViewHolder(rootView));
 
@@ -133,15 +135,21 @@ public class MapFragment extends BaseFragment implements MapView {
         if (map != null) drawMarkers();
     }
 
+    @Override
+    public void showObjectInfo(ObjectVisitation object) {
+
+    }
+
     private void drawMarkers() {
         map.clear();
 
         if (objects == null) return;
 
         boundsBuilder = new LatLngBounds.Builder();
+        Marker marker;
 
         for (ObjectVisitation object : objects) {
-            final Marker marker = map.addMarker(new MarkerOptions()
+            marker = map.addMarker(new MarkerOptions()
                     .position(new LatLng(object.getLat(), object.getLng())).title(object.getName()));
             marker.setTag(object);
             boundsBuilder.include(new LatLng(object.getLat(), object.getLng()));
@@ -158,14 +166,14 @@ public class MapFragment extends BaseFragment implements MapView {
         holder.instrumentsTextView.setText(object.getInstruments());
     }
 
-    class ObjectInfoViewHolder {
+    private class ObjectInfoViewHolder {
         private final TextView addressTextView;
         private final TextView nameTextView;
         private final TextView workTextView;
         private final TextView instrumentsTextView;
         private final TextView priorityTextView;
 
-        public ObjectInfoViewHolder(View rootView) {
+        private ObjectInfoViewHolder(View rootView) {
             addressTextView = rootView.findViewById(R.id.addressTextView);
             nameTextView = rootView.findViewById(R.id.objectNameTextView);
             workTextView = rootView.findViewById(R.id.workTextView);
