@@ -155,7 +155,7 @@ public class MapFragment extends BaseFragment implements MapView {
     }
 
     private void setInfoBottomSheetBehavior(ObjectVisitation object) {
-        //if (object == null) return;
+        if (object == null) return;
 
         objectInfoViewHolder.nameTextView.setText(object.getName());
         objectInfoViewHolder.addressTextView.setText(object.getAddress());
