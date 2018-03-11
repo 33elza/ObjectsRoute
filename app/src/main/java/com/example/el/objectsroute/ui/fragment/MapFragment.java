@@ -70,6 +70,8 @@ public class MapFragment extends BaseFragment implements MapView {
         mapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
+                if (objects == null) return;
+
                 map = googleMap;
                 drawMarkers();
 
@@ -153,7 +155,7 @@ public class MapFragment extends BaseFragment implements MapView {
     }
 
     private void setInfoBottomSheetBehavior(ObjectVisitation object) {
-        if (object == null) return;
+        //if (object == null) return;
 
         objectInfoViewHolder.nameTextView.setText(object.getName());
         objectInfoViewHolder.addressTextView.setText(object.getAddress());
