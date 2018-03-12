@@ -14,4 +14,6 @@ import java.util.List;
 @StateStrategyType(SingleStateStrategy.class)
 public interface ObjectListView extends MvpView {
     void setObjects(List<ObjectVisitation> objects);
+
+    void reloadObject(int index);
 }

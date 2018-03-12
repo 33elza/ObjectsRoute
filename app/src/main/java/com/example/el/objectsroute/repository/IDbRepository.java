@@ -11,7 +11,7 @@ import java.util.List;
 public interface IDbRepository {
     void saveObjects(List<ObjectVisitation> objects);
 
-    List<ObjectVisitation> getVisitedObjectsObjects();
+    List<ObjectVisitation> getObjects();
 
     void updateObject(ObjectVisitation object);
 

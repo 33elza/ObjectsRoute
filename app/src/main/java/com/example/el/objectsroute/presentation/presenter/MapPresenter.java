@@ -6,10 +6,9 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.example.el.objectsroute.dataclass.ObjectVisitation;
 import com.example.el.objectsroute.dataclass.Response;
-import com.example.el.objectsroute.interactor.GetObjectVisitationListInteractor;
+import com.example.el.objectsroute.interactor.GetObjectsInteractor;
+import com.example.el.objectsroute.interactor.RequestType;
 import com.example.el.objectsroute.presentation.view.MapView;
-import com.example.el.objectsroute.repository.DbRepository;
-import com.example.el.objectsroute.repository.IDbRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,8 +47,8 @@ public class MapPresenter extends MvpPresenter<MapView> {
         if (objectListDisposable != null && !objectListDisposable.isDisposed()) {
             objectListDisposable.dispose();
         }
-        objectListDisposable = new GetObjectVisitationListInteractor()
-                .getObjectList()
+        objectListDisposable = new GetObjectsInteractor()
+                .getObjectList(RequestType.CASH_ONLY)
                 .subscribe(new Consumer<Response<List<ObjectVisitation>>>() {
                     @Override
                     public void accept(Response<List<ObjectVisitation>> response) throws Exception {
@@ -64,7 +63,7 @@ public class MapPresenter extends MvpPresenter<MapView> {
     }
 
     public void getVisitedObjects() {
-        visitedObjects = new GetObjectVisitationListInteractor().getVisitedObjects();
+      //  visitedObjects = new GetObjectsInteractor().getVisitedObjects();
     }
 
     public void OnMarkerClicked (ObjectVisitation object) {

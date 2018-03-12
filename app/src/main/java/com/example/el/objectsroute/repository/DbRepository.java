@@ -12,7 +12,7 @@ import java.util.List;
 public class DbRepository implements IDbRepository{
     private static final DbRepository ourInstance = new DbRepository();
 
-    private final List<ObjectVisitation> visitedObjects = new ArrayList<>();
+    private final ArrayList<ObjectVisitation> objects = new ArrayList<>();
 
     private DbRepository() {
     }
@@ -22,28 +22,21 @@ public class DbRepository implements IDbRepository{
 
     @Override
     public void saveObjects(List<ObjectVisitation> objects) {
-        for (ObjectVisitation object : objects) {
-            if (!visitedObjects.contains(object)) {
-                visitedObjects.add(object);
-            }
-        }
-
-//        for (ObjectVisitation object : objects) {
-//            for (ObjectVisitation visitedObject : visitedObjects) {
-//                if (object == visitedObject){
-//                    object.setVisited(true);
-//                }
-//            }
-//        }
+       this.objects.clear();
+       this.objects.addAll(objects);
     }
 
     @Override
-    public List<ObjectVisitation> getVisitedObjectsObjects() {
-        return visitedObjects;
+    public List<ObjectVisitation> getObjects() {
+        return objects;
     }
 
     @Override
     public void updateObject(ObjectVisitation object) {
-
+        for (ObjectVisitation objectVisitation : objects) {
+            if (objectVisitation.equals(object)) {
+                break;
+            }
+        }
     }
 }

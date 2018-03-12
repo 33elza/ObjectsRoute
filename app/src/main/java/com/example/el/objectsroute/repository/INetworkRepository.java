@@ -6,6 +6,7 @@ import com.example.el.objectsroute.dataclass.Response;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 /**
  * Created by el on 01.03.2018.
@@ -13,5 +14,7 @@ import io.reactivex.Observable;
 
 public interface INetworkRepository {
 
-    Observable<Response<List<ObjectVisitation>>> getObjectList();
+    Single<Response<List<ObjectVisitation>>> loadObjects();
+
+    Single<Response> visitObject(ObjectVisitation object);
 }
