@@ -14,4 +14,5 @@ import java.util.List;
 @StateStrategyType(SingleStateStrategy.class)
 public interface MapView extends MvpView {
     void setObjectMarkers(List<ObjectVisitation> objects);
+    void showObjectInfo(ObjectVisitation object);
 }

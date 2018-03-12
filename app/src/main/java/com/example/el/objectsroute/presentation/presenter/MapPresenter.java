@@ -56,4 +56,8 @@ public class MapPresenter extends MvpPresenter<MapView> {
                     }
                 });
     }
+
+    public void OnMarkerClicked (ObjectVisitation object) {
+        getViewState().showObjectInfo(object);
+    }
 }
