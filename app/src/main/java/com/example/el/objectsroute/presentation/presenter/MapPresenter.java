@@ -1,13 +1,16 @@
 package com.example.el.objectsroute.presentation.presenter;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+import com.example.el.objectsroute.R;
 import com.example.el.objectsroute.dataclass.ObjectVisitation;
 import com.example.el.objectsroute.dataclass.Response;
 import com.example.el.objectsroute.interactor.GetObjectsInteractor;
 import com.example.el.objectsroute.interactor.RequestType;
+import com.example.el.objectsroute.interactor.VisitObjectInteractor;
 import com.example.el.objectsroute.presentation.view.MapView;
 
 import java.util.ArrayList;
@@ -24,11 +27,9 @@ import io.reactivex.functions.Consumer;
 public class MapPresenter extends MvpPresenter<MapView> {
 
     private Disposable objectListDisposable;
+    private Disposable visitObjectDisposable;
 
     private List<ObjectVisitation> objects;
-
-    private List<ObjectVisitation> visitedObjects;
-
 
     public void onCreate(Bundle arguments) {
         if (objects == null) getObjects();
@@ -40,6 +41,10 @@ public class MapPresenter extends MvpPresenter<MapView> {
         if (objectListDisposable != null && !objectListDisposable.isDisposed()) {
             objectListDisposable.dispose();
             objectListDisposable = null;
+        }
+        if (visitObjectDisposable != null && !visitObjectDisposable.isDisposed()) {
+            visitObjectDisposable.dispose();
+            visitObjectDisposable = null;
         }
     }
 
@@ -62,17 +67,44 @@ public class MapPresenter extends MvpPresenter<MapView> {
                 });
     }
 
-    public void getVisitedObjects() {
-      //  visitedObjects = new GetObjectsInteractor().getVisitedObjects();
-    }
-
-    public void OnMarkerClicked (ObjectVisitation object) {
+    public void OnMarkerClicked(ObjectVisitation object) {
         getViewState().showObjectInfo(object);
     }
 
-    public void OnVisitTextViewClicked(ObjectVisitation object) {
-        List<ObjectVisitation> visitedObjects = new ArrayList<>();
-        visitedObjects.add(object);
-        getViewState().saveObjects(visitedObjects);
+    public void onVisitTextViewClicked(final ObjectVisitation object) {
+        getViewState().showDialog(R.string.visit_dialog_title,
+                R.string.dialog_button_yes,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        visitObject(object);
+                        dialogInterface.dismiss();
+                    }
+                },
+                R.string.dialog_button_no,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+    }
+
+    private void visitObject(final ObjectVisitation object) {
+        // TODO: 12.03.2018 Показать loader
+
+        visitObjectDisposable = new VisitObjectInteractor()
+                .visitObject(object)
+                .subscribe(new Consumer<Response>() {
+                    @Override
+                    public void accept(Response response) throws Exception {
+                        if (response.hasError()) {
+                            // TODO: 19.02.2018 Обработать ошибку
+                        } else {
+                            object.setVisited(true);
+                            getViewState().showObjectInfo(object);
+                        }
+                    }
+                });
     }
 }

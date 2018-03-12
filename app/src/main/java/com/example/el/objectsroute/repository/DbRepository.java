@@ -35,6 +35,7 @@ public class DbRepository implements IDbRepository{
     public void updateObject(ObjectVisitation object) {
         for (ObjectVisitation objectVisitation : objects) {
             if (objectVisitation.equals(object)) {
+              objectVisitation.setVisited(object.isVisited());
                 break;
             }
         }

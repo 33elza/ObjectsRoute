@@ -42,7 +42,6 @@ public class ObjectListPresenter extends MvpPresenter<ObjectListView> {
             objectListDisposable.dispose();
             objectListDisposable = null;
         }
-
         if (visitObjectDisposable != null && !visitObjectDisposable.isDisposed()) {
             visitObjectDisposable.dispose();
             visitObjectDisposable = null;

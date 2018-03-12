@@ -5,7 +5,6 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -13,8 +12,6 @@ import com.example.el.objectsroute.R;
 import com.example.el.objectsroute.dataclass.ObjectVisitation;
 import com.example.el.objectsroute.presentation.presenter.MapPresenter;
 import com.example.el.objectsroute.presentation.view.MapView;
-import com.example.el.objectsroute.repository.DbRepository;
-import com.example.el.objectsroute.repository.IDbRepository;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -160,10 +157,6 @@ public class MapFragment extends BaseFragment implements MapView {
         }
     }
 
-    public void saveObjects(List<ObjectVisitation> objects) {
-        IDbRepository dbRepository = DbRepository.getInstance();
-        dbRepository.saveObjects(objects);
-    }
 
     private void setInfoBottomSheetBehavior(final ObjectVisitation object) {
         if (object == null) return;
@@ -173,14 +166,12 @@ public class MapFragment extends BaseFragment implements MapView {
         objectInfoViewHolder.priorityTextView.setText(object.getPriority());
         objectInfoViewHolder.workTextView.setText(object.getWork());
         objectInfoViewHolder.instrumentsTextView.setText(object.getInstruments());
+        objectInfoViewHolder.visitTextView.setEnabled(!object.isVisited());
+        objectInfoViewHolder.visitTextView.setText(object.isVisited() ? R.string.is_visited_text : R.string.visit_text);
         objectInfoViewHolder.visitTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                object.setVisited(true);
-                presenter.OnVisitTextViewClicked(object);
-                presenter.getVisitedObjects();
-                view.setEnabled(false);
-                objectInfoViewHolder.visitTextView.setText("Посещено");
+                presenter.onVisitTextViewClicked(object);
             }
         });
 

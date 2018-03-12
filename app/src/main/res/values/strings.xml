@@ -13,5 +13,8 @@
     <string name="invalid_email_error">Указан неверный адрес электронной почты</string>
     <string name="empty_password_error">Введите пароль</string>
     <string name="invalid_password_error">Пароль должен содержать минимум 8 символов, по крайней мере одна буква и одно число</string>
+    <string name="visit_dialog_title">Вы посетили объект?</string>
+    <string name="dialog_button_yes">Да</string>
+    <string name="dialog_button_no">Нет</string>
 
 </resources>

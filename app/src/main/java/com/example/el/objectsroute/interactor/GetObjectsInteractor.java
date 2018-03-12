@@ -40,7 +40,7 @@ public class GetObjectsInteractor {
                 if (requestType == RequestType.CASH_ONLY || requestType == RequestType.CASH_AND_LOAD) {
                     emitter.onNext(new Response<List<ObjectVisitation>>(dbRepository.getObjects()));
                 }
-                if (requestType == RequestType.FORCE_LOAD || requestType == RequestType.CASH_ONLY) {
+                if (requestType == RequestType.FORCE_LOAD || requestType == RequestType.CASH_AND_LOAD) {
                     loadObjectsDisposable = networkRepository.loadObjects()
                             .doOnSuccess(new Consumer<Response<List<ObjectVisitation>>>() {
                                 @Override
