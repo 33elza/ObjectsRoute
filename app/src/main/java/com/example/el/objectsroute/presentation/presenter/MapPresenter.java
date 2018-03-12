@@ -8,7 +8,10 @@ import com.example.el.objectsroute.dataclass.ObjectVisitation;
 import com.example.el.objectsroute.dataclass.Response;
 import com.example.el.objectsroute.interactor.GetObjectVisitationListInteractor;
 import com.example.el.objectsroute.presentation.view.MapView;
+import com.example.el.objectsroute.repository.DbRepository;
+import com.example.el.objectsroute.repository.IDbRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.disposables.Disposable;
@@ -24,6 +27,9 @@ public class MapPresenter extends MvpPresenter<MapView> {
     private Disposable objectListDisposable;
 
     private List<ObjectVisitation> objects;
+
+    private List<ObjectVisitation> visitedObjects;
+
 
     public void onCreate(Bundle arguments) {
         if (objects == null) getObjects();
@@ -57,7 +63,17 @@ public class MapPresenter extends MvpPresenter<MapView> {
                 });
     }
 
+    public void getVisitedObjects() {
+        visitedObjects = new GetObjectVisitationListInteractor().getVisitedObjects();
+    }
+
     public void OnMarkerClicked (ObjectVisitation object) {
         getViewState().showObjectInfo(object);
+    }
+
+    public void OnVisitTextViewClicked(ObjectVisitation object) {
+        List<ObjectVisitation> visitedObjects = new ArrayList<>();
+        visitedObjects.add(object);
+        getViewState().saveObjects(visitedObjects);
     }
 }

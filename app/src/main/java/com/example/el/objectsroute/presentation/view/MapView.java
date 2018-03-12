@@ -15,4 +15,6 @@ import java.util.List;
 public interface MapView extends MvpView {
     void setObjectMarkers(List<ObjectVisitation> objects);
     void showObjectInfo(ObjectVisitation object);
+
+    void saveObjects(List<ObjectVisitation> objects);
 }

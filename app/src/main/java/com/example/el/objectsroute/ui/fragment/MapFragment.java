@@ -5,6 +5,7 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -12,6 +13,8 @@ import com.example.el.objectsroute.R;
 import com.example.el.objectsroute.dataclass.ObjectVisitation;
 import com.example.el.objectsroute.presentation.presenter.MapPresenter;
 import com.example.el.objectsroute.presentation.view.MapView;
+import com.example.el.objectsroute.repository.DbRepository;
+import com.example.el.objectsroute.repository.IDbRepository;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -157,7 +160,12 @@ public class MapFragment extends BaseFragment implements MapView {
         }
     }
 
-    private void setInfoBottomSheetBehavior(ObjectVisitation object) {
+    public void saveObjects(List<ObjectVisitation> objects) {
+        IDbRepository dbRepository = DbRepository.getInstance();
+        dbRepository.saveObjects(objects);
+    }
+
+    private void setInfoBottomSheetBehavior(final ObjectVisitation object) {
         if (object == null) return;
 
         objectInfoViewHolder.nameTextView.setText(object.getName());
@@ -165,6 +173,17 @@ public class MapFragment extends BaseFragment implements MapView {
         objectInfoViewHolder.priorityTextView.setText(object.getPriority());
         objectInfoViewHolder.workTextView.setText(object.getWork());
         objectInfoViewHolder.instrumentsTextView.setText(object.getInstruments());
+        objectInfoViewHolder.visitTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                object.setVisited(true);
+                presenter.OnVisitTextViewClicked(object);
+                presenter.getVisitedObjects();
+                view.setEnabled(false);
+                objectInfoViewHolder.visitTextView.setText("Посещено");
+            }
+        });
+
     }
 
     private class ObjectInfoViewHolder {
@@ -173,6 +192,7 @@ public class MapFragment extends BaseFragment implements MapView {
         private final TextView workTextView;
         private final TextView instrumentsTextView;
         private final TextView priorityTextView;
+        private final TextView visitTextView;
 
         private ObjectInfoViewHolder(View rootView) {
             addressTextView = rootView.findViewById(R.id.addressTextView);
@@ -180,12 +200,7 @@ public class MapFragment extends BaseFragment implements MapView {
             workTextView = rootView.findViewById(R.id.workTextView);
             instrumentsTextView = rootView.findViewById(R.id.instrumentsTextView);
             priorityTextView = rootView.findViewById(R.id.priorityTextView);
-
-            rootView.findViewById(R.id.visitTextView).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                }
-            });
+            visitTextView = rootView.findViewById(R.id.visitTextView);
         }
     }
 }

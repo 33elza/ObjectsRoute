@@ -29,13 +29,24 @@ public class ObjectListAdapter extends RecyclerView.Adapter<ObjectListAdapter.Ob
     }
 
     @Override
-    public void onBindViewHolder(ObjectViewHolder holder, int position) {
+    public void onBindViewHolder(final ObjectViewHolder holder, int position) {
         final ObjectVisitation object = objects.get(position);
 
         holder.addressTextView.setText(object.getAddress());
         holder.nameTextView.setText(object.getName());
         holder.workTextView.setText(object.getWork());
         holder.instrumentsTextView.setText(object.getInstruments());
+        holder.priorityTextView.setText(object.getPriority());
+        holder.visitTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                object.setVisited(true);
+               // presenter.OnVisitTextViewClicked(object);
+               // presenter.getVisitedObjects();
+                view.setEnabled(false);
+                holder.visitTextView.setText("Посещено");
+            }
+        });
     }
 
     @Override
@@ -50,6 +61,7 @@ public class ObjectListAdapter extends RecyclerView.Adapter<ObjectListAdapter.Ob
         private final TextView workTextView;
         private final TextView instrumentsTextView;
         private final TextView priorityTextView;
+        private final TextView visitTextView;
 
         public ObjectViewHolder(View itemView) {
             super(itemView);
@@ -58,12 +70,7 @@ public class ObjectListAdapter extends RecyclerView.Adapter<ObjectListAdapter.Ob
             workTextView = itemView.findViewById(R.id.workTextView);
             instrumentsTextView = itemView.findViewById(R.id.instrumentsTextView);
             priorityTextView = itemView.findViewById(R.id.priorityTextView);
-
-            itemView.findViewById(R.id.visitTextView).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                }
-            });
+            visitTextView = itemView.findViewById(R.id.visitTextView);
         }
     }
 }
