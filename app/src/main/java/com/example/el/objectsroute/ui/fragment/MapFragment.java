@@ -70,15 +70,7 @@ public class MapFragment extends BaseFragment implements MapView {
         mapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
-                if (objects == null) return;
-
                 map = googleMap;
-                drawMarkers();
-
-                map.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(),
-                        getResources().getDisplayMetrics().widthPixels,
-                        getResources().getDisplayMetrics().heightPixels,
-                        BOUNDS_PADDING));
 
                 map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                     @Override
@@ -87,6 +79,15 @@ public class MapFragment extends BaseFragment implements MapView {
                         return false;
                     }
                 });
+
+                if (objects == null) return;
+
+                drawMarkers();
+
+                map.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(),
+                        getResources().getDisplayMetrics().widthPixels,
+                        getResources().getDisplayMetrics().heightPixels,
+                        BOUNDS_PADDING));
             }
         });
 
@@ -139,13 +140,15 @@ public class MapFragment extends BaseFragment implements MapView {
     }
 
     private void drawMarkers() {
+        if (map == null) return;
+
         map.clear();
 
         if (objects == null) return;
 
         boundsBuilder = new LatLngBounds.Builder();
-        Marker marker;
 
+        Marker marker;
         for (ObjectVisitation object : objects) {
             marker = map.addMarker(new MarkerOptions()
                     .position(new LatLng(object.getLat(), object.getLng())).title(object.getName()));
