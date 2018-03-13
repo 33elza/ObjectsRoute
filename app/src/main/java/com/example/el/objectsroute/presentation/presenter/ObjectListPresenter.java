@@ -2,6 +2,7 @@ package com.example.el.objectsroute.presentation.presenter;
 
 import android.content.DialogInterface;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
@@ -31,6 +32,8 @@ public class ObjectListPresenter extends MvpPresenter<ObjectListView> {
     private Disposable visitObjectDisposable;
 
     private List<ObjectVisitation> objects;
+
+    private ProgressBar progressBar;
 
     public void onStart() {
         getObjects(objects == null ? RequestType.FORCE_LOAD : RequestType.CASH_ONLY);
@@ -81,13 +84,13 @@ public class ObjectListPresenter extends MvpPresenter<ObjectListView> {
         return new ObjectListAdapter.Listener() {
             @Override
             public void onVisitObjectClick(final ObjectVisitation object, final int index) {
-                // TODO: 12.03.2018 Показать loader
 
                 getViewState().showDialog(R.string.visit_dialog_title,
                         R.string.dialog_button_yes,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                progressBar.setVisibility(View.VISIBLE);
                                 visitObject(object, index);
                                 dialogInterface.dismiss();
                             }
@@ -117,5 +120,10 @@ public class ObjectListPresenter extends MvpPresenter<ObjectListView> {
                         }
                     }
                 });
+    }
+
+    public void setProgressBar(ProgressBar progressBar) {
+        if (progressBar == null) return;
+        this.progressBar = progressBar;
     }
 }

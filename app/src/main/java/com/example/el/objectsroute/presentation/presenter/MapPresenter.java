@@ -2,6 +2,8 @@ package com.example.el.objectsroute.presentation.presenter;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
@@ -29,6 +31,7 @@ public class MapPresenter extends MvpPresenter<MapView> {
     private Disposable visitObjectDisposable;
 
     private List<ObjectVisitation> objects;
+    private ProgressBar progressBar;
 
     public void onCreate(Bundle arguments) {
         if (objects == null) getObjects();
@@ -76,6 +79,7 @@ public class MapPresenter extends MvpPresenter<MapView> {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        progressBar.setVisibility(View.VISIBLE);
                         visitObject(object);
                         dialogInterface.dismiss();
                     }
@@ -102,8 +106,13 @@ public class MapPresenter extends MvpPresenter<MapView> {
                         } else {
                             object.setVisited(true);
                             getViewState().showObjectInfo(object);
+                            progressBar.setVisibility(View.GONE);
                         }
                     }
                 });
+    }
+    public void setProgressBar(ProgressBar progressBar) {
+        if (progressBar == null) return;
+        this.progressBar = progressBar;
     }
 }

@@ -3,6 +3,8 @@ package com.example.el.objectsroute.ui.fragment;
 import android.content.DialogInterface;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
@@ -38,4 +40,16 @@ public class BaseFragment extends MvpAppCompatFragment implements BaseView {
                 .setPositiveButton(positiveButtonTitle, positiveButtonClickListener)
                 .show();
     }
+
+    public void showProgressBar(ProgressBar progressBar) {
+       if (progressBar == null) return;
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void hideProgressBar(ProgressBar progressBar) {
+        if (progressBar == null) return;
+        progressBar.setVisibility(View.GONE);
+    }
+
 }
+
