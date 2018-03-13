@@ -13,7 +13,6 @@ import com.example.el.objectsroute.interactor.RequestType;
 import com.example.el.objectsroute.interactor.VisitObjectInteractor;
 import com.example.el.objectsroute.presentation.view.MapView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.disposables.Disposable;

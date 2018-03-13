@@ -8,8 +8,6 @@ import com.example.el.objectsroute.repository.IDbRepository;
 import com.example.el.objectsroute.repository.INetworkRepository;
 import com.example.el.objectsroute.repository.NetworkRepository;
 
-import java.util.List;
-
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;

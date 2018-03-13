@@ -3,7 +3,6 @@ package com.example.el.objectsroute.ui.fragment;
 import android.content.DialogInterface;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
-import android.view.View;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;

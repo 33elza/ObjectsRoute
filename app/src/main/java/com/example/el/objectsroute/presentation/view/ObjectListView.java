@@ -12,7 +12,7 @@ import java.util.List;
  */
 
 @StateStrategyType(SingleStateStrategy.class)
-public interface ObjectListView extends MvpView {
+public interface ObjectListView extends MvpView, BaseView {
     void setObjects(List<ObjectVisitation> objects);
 
     void reloadObject(int index);

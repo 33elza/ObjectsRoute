@@ -1,11 +1,12 @@
 package com.example.el.objectsroute.presentation.presenter;
 
-import android.os.Bundle;
+import android.content.DialogInterface;
 import android.view.View;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.example.el.objectsroute.App;
+import com.example.el.objectsroute.R;
 import com.example.el.objectsroute.dataclass.ObjectVisitation;
 import com.example.el.objectsroute.dataclass.Response;
 import com.example.el.objectsroute.interactor.GetObjectsInteractor;
@@ -82,21 +83,39 @@ public class ObjectListPresenter extends MvpPresenter<ObjectListView> {
             public void onVisitObjectClick(final ObjectVisitation object, final int index) {
                 // TODO: 12.03.2018 Показать loader
 
-                visitObjectDisposable = new VisitObjectInteractor()
-                        .visitObject(object)
-                        .subscribe(new Consumer<Response>() {
+                getViewState().showDialog(R.string.visit_dialog_title,
+                        R.string.dialog_button_yes,
+                        new DialogInterface.OnClickListener() {
                             @Override
-                            public void accept(Response response) throws Exception {
-                                if (response.hasError()) {
-                                    // TODO: 19.02.2018 Обработать ошибку
-                                } else {
-                                    object.setVisited(true);
-                                    getViewState().reloadObject(index);
-                                }
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                visitObject(object, index);
+                                dialogInterface.dismiss();
+                            }
+                        },
+                        R.string.dialog_button_no,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
                             }
                         });
             }
         };
     }
 
+    private void visitObject(final ObjectVisitation object, final int index) {
+        visitObjectDisposable = new VisitObjectInteractor()
+                .visitObject(object)
+                .subscribe(new Consumer<Response>() {
+                    @Override
+                    public void accept(Response response) throws Exception {
+                        if (response.hasError()) {
+                            // TODO: 19.02.2018 Обработать ошибку
+                        } else {
+                            object.setVisited(true);
+                            getViewState().reloadObject(index);
+                        }
+                    }
+                });
+    }
 }

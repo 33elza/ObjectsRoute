@@ -1,7 +1,5 @@
 package com.example.el.objectsroute.interactor;
 
-import android.support.annotation.MainThread;
-
 import com.example.el.objectsroute.dataclass.Error;
 import com.example.el.objectsroute.dataclass.ObjectVisitation;
 import com.example.el.objectsroute.dataclass.Response;
@@ -15,7 +13,6 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
