@@ -5,7 +5,6 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -44,8 +43,6 @@ public class MapFragment extends BaseFragment implements MapView {
 
     private List<ObjectVisitation> objects;
 
-    private ProgressBar progressBar;
-
     public static MapFragment getInstance() {
         return new MapFragment();
     }
@@ -70,15 +67,10 @@ public class MapFragment extends BaseFragment implements MapView {
         infoBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
         infoBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
-        progressBar = rootView.findViewById(R.id.progressBar);
-        presenter.setProgressBar(progressBar);
-
         mapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 map = googleMap;
-
-                hideProgressBar(progressBar);
 
                 map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                     @Override

@@ -2,7 +2,6 @@ package com.example.el.objectsroute.presentation.view;
 
 import android.content.DialogInterface;
 import android.support.annotation.StringRes;
-import android.widget.ProgressBar;
 
 import com.arellomobile.mvp.MvpView;
 
@@ -23,7 +22,7 @@ public interface BaseView extends MvpView {
                     @StringRes final int positiveButtonTitle,
                     DialogInterface.OnClickListener positiveButtonClickListener);
 
-    public void showProgressBar(ProgressBar progressBar);
+    void showProgressBar();
 
-    public void hideProgressBar(ProgressBar progressBar);
+    void hideProgressBar();
 }

@@ -7,8 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ProgressBar;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.el.objectsroute.R;
@@ -29,12 +27,6 @@ public class ObjectListFragment extends BaseFragment implements ObjectListView {
     ObjectListPresenter presenter;
 
     private ObjectListAdapter adapter;
-
-    private List<ObjectVisitation> objects;
-
-    private Button makeRouteButton;
-
-    private ProgressBar progressBar;
 
     public static ObjectListFragment getInstance() {
         return new ObjectListFragment();
@@ -58,17 +50,10 @@ public class ObjectListFragment extends BaseFragment implements ObjectListView {
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_object_list, null);
 
-        progressBar = rootView.findViewById(R.id.progressBar);
-        presenter.setProgressBar(progressBar);
-        showProgressBar(progressBar);
-
         final RecyclerView recyclerView = rootView.findViewById(R.id.objectListRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
-
-        makeRouteButton = rootView.findViewById(R.id.makeRouteButton);
-        makeRouteButton.setOnClickListener(presenter.getMakeRouteButtonClickListener());
 
         return rootView;
     }
@@ -77,13 +62,11 @@ public class ObjectListFragment extends BaseFragment implements ObjectListView {
     public void setObjects(List<ObjectVisitation> data) {
         adapter.setObjects(data);
         adapter.notifyDataSetChanged();
-        hideProgressBar(progressBar);
     }
 
     @Override
     public void reloadObject(int index) {
         adapter.notifyItemChanged(index);
-        hideProgressBar(progressBar);
     }
 
 }
