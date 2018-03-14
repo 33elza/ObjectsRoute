@@ -16,5 +16,7 @@
     <string name="visit_dialog_title">Вы посетили объект?</string>
     <string name="dialog_button_yes">Да</string>
     <string name="dialog_button_no">Нет</string>
+    <string name="map_nav_title">Карта</string>
+    <string name="list_nav_title">Список объектов</string>
 
 </resources>

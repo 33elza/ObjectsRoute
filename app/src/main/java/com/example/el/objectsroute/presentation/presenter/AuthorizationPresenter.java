@@ -15,8 +15,9 @@ import com.example.el.objectsroute.utils.validator.BaseValidator;
 import com.example.el.objectsroute.utils.validator.EmailValidator;
 import com.example.el.objectsroute.utils.validator.PasswordValidator;
 
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Created by el on 15.02.2018.
@@ -25,7 +26,6 @@ import io.reactivex.functions.Consumer;
 @InjectViewState
 public class AuthorizationPresenter extends MvpPresenter<AuthorizationView> {
 
-    private Disposable loginDisposable;
     private EmailValidator emailValidator;
     private PasswordValidator passwordValidator;
 
@@ -35,19 +35,17 @@ public class AuthorizationPresenter extends MvpPresenter<AuthorizationView> {
     public void onCreate(Bundle arguments) {
         emailValidator = new EmailValidator();
         passwordValidator = new PasswordValidator();
+
+        EventBus.getDefault().register(this);
     }
 
     public void onCreateView() {
-
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (loginDisposable != null && !loginDisposable.isDisposed()) {
-            loginDisposable.dispose();
-            loginDisposable = null;
-        }
+        EventBus.getDefault().unregister(this);
     }
 
     public View.OnClickListener getLoginButtonClickListener() {
@@ -78,21 +76,17 @@ public class AuthorizationPresenter extends MvpPresenter<AuthorizationView> {
     }
 
     private void login() {
-        if (loginDisposable != null && !loginDisposable.isDisposed()) {
-            loginDisposable.dispose();
+        new LoginInteractor().login(email, password);
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLoginEvent(Response.LoginResponse response) {
+        if (response.hasError()) {
+            // TODO: 19.02.2018 Обработать ошибку
+        } else {
+            App.getRouter().goToObjectList();
         }
-        loginDisposable = new LoginInteractor()
-                .login(email, password)
-                .subscribe(new Consumer<Response>() {
-                    @Override
-                    public void accept(Response response) throws Exception {
-                        if (response.hasError()) {
-                            // TODO: 19.02.2018 Обработать ошибку
-                        } else {
-                            App.getRouter().goToObjectList();
-                        }
-                    }
-                });
     }
 
 
