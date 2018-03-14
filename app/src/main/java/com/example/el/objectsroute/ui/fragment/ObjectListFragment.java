@@ -41,8 +41,13 @@ public class ObjectListFragment extends BaseFragment implements ObjectListView {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        adapter = new ObjectListAdapter();
-        presenter.onCreate(getArguments());
+        adapter = new ObjectListAdapter(presenter.getObjectAdapterListener());
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        presenter.onStart();
     }
 
     @Override
@@ -65,6 +70,11 @@ public class ObjectListFragment extends BaseFragment implements ObjectListView {
     public void setObjects(List<ObjectVisitation> data) {
         adapter.setObjects(data);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void reloadObject(int index) {
+        adapter.notifyItemChanged(index);
     }
 
 }

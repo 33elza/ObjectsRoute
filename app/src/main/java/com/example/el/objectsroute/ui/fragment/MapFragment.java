@@ -157,7 +157,8 @@ public class MapFragment extends BaseFragment implements MapView {
         }
     }
 
-    private void setInfoBottomSheetBehavior(ObjectVisitation object) {
+
+    private void setInfoBottomSheetBehavior(final ObjectVisitation object) {
         if (object == null) return;
 
         objectInfoViewHolder.nameTextView.setText(object.getName());
@@ -165,6 +166,15 @@ public class MapFragment extends BaseFragment implements MapView {
         objectInfoViewHolder.priorityTextView.setText(object.getPriority());
         objectInfoViewHolder.workTextView.setText(object.getWork());
         objectInfoViewHolder.instrumentsTextView.setText(object.getInstruments());
+        objectInfoViewHolder.visitTextView.setEnabled(!object.isVisited());
+        objectInfoViewHolder.visitTextView.setText(object.isVisited() ? R.string.is_visited_text : R.string.visit_text);
+        objectInfoViewHolder.visitTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.onVisitTextViewClicked(object);
+            }
+        });
+
     }
 
     private class ObjectInfoViewHolder {
@@ -173,6 +183,7 @@ public class MapFragment extends BaseFragment implements MapView {
         private final TextView workTextView;
         private final TextView instrumentsTextView;
         private final TextView priorityTextView;
+        private final TextView visitTextView;
 
         private ObjectInfoViewHolder(View rootView) {
             addressTextView = rootView.findViewById(R.id.addressTextView);
@@ -180,12 +191,7 @@ public class MapFragment extends BaseFragment implements MapView {
             workTextView = rootView.findViewById(R.id.workTextView);
             instrumentsTextView = rootView.findViewById(R.id.instrumentsTextView);
             priorityTextView = rootView.findViewById(R.id.priorityTextView);
-
-            rootView.findViewById(R.id.visitTextView).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                }
-            });
+            visitTextView = rootView.findViewById(R.id.visitTextView);
         }
     }
 }

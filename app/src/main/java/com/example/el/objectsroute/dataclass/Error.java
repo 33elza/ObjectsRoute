@@ -5,4 +5,7 @@ package com.example.el.objectsroute.dataclass;
  */
 
 public class Error {
+    public Error(Throwable throwable){
+
+    }
 }

@@ -6,7 +6,7 @@ import com.example.el.objectsroute.dataclass.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
 
 /**
  * Created by el on 01.03.2018.
@@ -22,7 +22,7 @@ public class NetworkRepository implements INetworkRepository {
     private NetworkRepository() {
     }
 
-    public Observable<Response<List<ObjectVisitation>>> getObjectList() {
+    public Single<Response<List<ObjectVisitation>>> loadObjects() {
 
         final List<ObjectVisitation> visitationList = new ArrayList<>();
 
@@ -35,6 +35,21 @@ public class NetworkRepository implements INetworkRepository {
         visitationList.add(new ObjectVisitation(7, false, "Ульяновский строительный колледж", "г.Ульяновск, ул. Любови Шевцовой, 57", 54.354886f, 48.383350f, "обычный", "Планово-предупредительная работа", 15, ""));
         visitationList.add(new ObjectVisitation(8, false, "Гидроаппарат", "г.Ульяновск, Московское ш., 9", 54.300061f, 48.290994f, "обычный", "Планово-предупредительная работа", 15, ""));
 
-        return Observable.just(new Response<List<ObjectVisitation>>(visitationList));
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return Single.just(new Response<List<ObjectVisitation>>(visitationList));
+    }
+
+    @Override
+    public Single<Response> visitObject(ObjectVisitation object) {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return Single.just(new Response());
     }
 }

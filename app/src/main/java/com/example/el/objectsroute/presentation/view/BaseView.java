@@ -1,5 +1,6 @@
 package com.example.el.objectsroute.presentation.view;
 
+import android.content.DialogInterface;
 import android.support.annotation.StringRes;
 
 import com.arellomobile.mvp.MvpView;
@@ -10,4 +11,14 @@ import com.arellomobile.mvp.MvpView;
 
 public interface BaseView extends MvpView {
     void showError(final @StringRes int error);
+
+    void showDialog(@StringRes final int title,
+                    @StringRes final int positiveButtonTitle,
+                    DialogInterface.OnClickListener positiveButtonClickListener,
+                    @StringRes final int negativeButtonTitle,
+                    DialogInterface.OnClickListener negativeButtonClickListener);
+
+    void showDialog(@StringRes final int title,
+                    @StringRes final int positiveButtonTitle,
+                    DialogInterface.OnClickListener positiveButtonClickListener);
 }
