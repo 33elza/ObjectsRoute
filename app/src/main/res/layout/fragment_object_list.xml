@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -7,13 +7,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/objectListRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="match_parent" />
 
-    <Button
-        android:id="@+id/makeRouteButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/make_route_button" />
+    <include layout="@layout/layout_progress_view" />
 
-</LinearLayout>
+</FrameLayout>

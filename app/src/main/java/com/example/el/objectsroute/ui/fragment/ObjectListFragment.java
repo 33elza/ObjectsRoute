@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.el.objectsroute.R;
@@ -28,10 +27,6 @@ public class ObjectListFragment extends BaseFragment implements ObjectListView {
     ObjectListPresenter presenter;
 
     private ObjectListAdapter adapter;
-
-    private List<ObjectVisitation> objects;
-
-    private Button makeRouteButton;
 
     public static ObjectListFragment getInstance() {
         return new ObjectListFragment();
@@ -59,9 +54,6 @@ public class ObjectListFragment extends BaseFragment implements ObjectListView {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
-
-        makeRouteButton = rootView.findViewById(R.id.makeRouteButton);
-        makeRouteButton.setOnClickListener(presenter.getMakeRouteButtonClickListener());
 
         return rootView;
     }

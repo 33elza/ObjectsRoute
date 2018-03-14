@@ -1,11 +1,9 @@
 package com.example.el.objectsroute.presentation.presenter;
 
 import android.content.DialogInterface;
-import android.view.View;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import com.example.el.objectsroute.App;
 import com.example.el.objectsroute.R;
 import com.example.el.objectsroute.dataclass.ObjectVisitation;
 import com.example.el.objectsroute.dataclass.Response;
@@ -33,7 +31,12 @@ public class ObjectListPresenter extends MvpPresenter<ObjectListView> {
     private List<ObjectVisitation> objects;
 
     public void onStart() {
-        getObjects(objects == null ? RequestType.FORCE_LOAD : RequestType.CASH_ONLY);
+        if (objects == null) {
+            getViewState().showProgressBar();
+            getObjects(RequestType.FORCE_LOAD);
+        } else {
+            getObjects(RequestType.CASH_ONLY);
+        }
     }
 
     @Override
@@ -63,25 +66,16 @@ public class ObjectListPresenter extends MvpPresenter<ObjectListView> {
                         } else {
                             objects = response.getData();
                             getViewState().setObjects(objects);
+                            getViewState().hideProgressBar();
                         }
                     }
                 });
-    }
-
-    public View.OnClickListener getMakeRouteButtonClickListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                App.getRouter().goToMap();
-            }
-        };
     }
 
     public ObjectListAdapter.Listener getObjectAdapterListener() {
         return new ObjectListAdapter.Listener() {
             @Override
             public void onVisitObjectClick(final ObjectVisitation object, final int index) {
-                // TODO: 12.03.2018 Показать loader
 
                 getViewState().showDialog(R.string.visit_dialog_title,
                         R.string.dialog_button_yes,
@@ -118,4 +112,5 @@ public class ObjectListPresenter extends MvpPresenter<ObjectListView> {
                     }
                 });
     }
+
 }

@@ -21,4 +21,8 @@ public interface BaseView extends MvpView {
     void showDialog(@StringRes final int title,
                     @StringRes final int positiveButtonTitle,
                     DialogInterface.OnClickListener positiveButtonClickListener);
+
+    void showProgressBar();
+
+    void hideProgressBar();
 }
