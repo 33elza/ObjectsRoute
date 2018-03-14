@@ -8,14 +8,11 @@ import com.example.el.objectsroute.repository.IDbRepository;
 import com.example.el.objectsroute.repository.INetworkRepository;
 import com.example.el.objectsroute.repository.NetworkRepository;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
@@ -28,48 +25,28 @@ public class GetObjectsInteractor {
     private INetworkRepository networkRepository = NetworkRepository.getInstance();
     private IDbRepository dbRepository = DbRepository.getInstance();
 
-    private Disposable loadObjectsDisposable;
-
-    public Observable<Response<List<ObjectVisitation>>> getObjectList(final int requestType) {
-        return Observable.create(new ObservableOnSubscribe<Response<List<ObjectVisitation>>>() {
-            @Override
-            public void subscribe(final ObservableEmitter<Response<List<ObjectVisitation>>> emitter) throws Exception {
-                if (requestType == RequestType.CASH_ONLY || requestType == RequestType.CASH_AND_LOAD) {
-                    emitter.onNext(new Response<List<ObjectVisitation>>(dbRepository.getObjects()));
+    public void getObjectList(final int requestType) {
+        if (requestType == RequestType.CASH_ONLY || requestType == RequestType.CASH_AND_LOAD) {
+            EventBus.getDefault().post(new Response.ObjectsResponse(dbRepository.getObjects()));
+        }
+        if (requestType == RequestType.FORCE_LOAD || requestType == RequestType.CASH_AND_LOAD) {
+            networkRepository.loadObjects().doOnSuccess(new Consumer<List<ObjectVisitation>>() {
+                @Override
+                public void accept(List<ObjectVisitation> objectVisitations) throws Exception {
+                    dbRepository.saveObjects(objectVisitations);
                 }
-                if (requestType == RequestType.FORCE_LOAD || requestType == RequestType.CASH_AND_LOAD) {
-                    loadObjectsDisposable = networkRepository.loadObjects()
-                            .doOnSuccess(new Consumer<Response<List<ObjectVisitation>>>() {
-                                @Override
-                                public void accept(Response<List<ObjectVisitation>> listResponse) throws Exception {
-                                    dbRepository.saveObjects(listResponse.getData());
-                                }
-                            })
-                            .subscribe(new Consumer<Response<List<ObjectVisitation>>>() {
-                                           @Override
-                                           public void accept(Response<List<ObjectVisitation>> listResponse) throws Exception {
-                                               emitter.onNext(listResponse);
-                                           }
-                                       },
-                                    new Consumer<Throwable>() {
-                                        @Override
-                                        public void accept(Throwable throwable) throws Exception {
-                                            emitter.onNext(new Response<List<ObjectVisitation>>(new Error(throwable)));
-                                        }
-                                    });
-                }
-            }
-        })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnDispose(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        if (loadObjectsDisposable != null && !loadObjectsDisposable.isDisposed()) {
-                            loadObjectsDisposable.dispose();
-                            loadObjectsDisposable = null;
+            }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<List<ObjectVisitation>>() {
+                        @Override
+                        public void accept(List<ObjectVisitation> objects) throws Exception {
+                            EventBus.getDefault().post(new Response.ObjectsResponse(dbRepository.getObjects()));
                         }
-                    }
-                });
+                    }, new Consumer<Throwable>() {
+                        @Override
+                        public void accept(Throwable throwable) throws Exception {
+                            EventBus.getDefault().post(new Response.ObjectsResponse(new Error(throwable)));
+                        }
+                    });
+        }
     }
 }

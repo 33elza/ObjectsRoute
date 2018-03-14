@@ -1,7 +1,7 @@
 package com.example.el.objectsroute.ui.fragment;
 
 import android.os.Bundle;
-import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,9 +37,9 @@ public class MapFragment extends BaseFragment implements MapView {
     private LatLngBounds.Builder boundsBuilder;
     private final int BOUNDS_PADDING = 50;
 
-    private BottomSheetBehavior infoBottomSheetBehavior;
-
     private ObjectInfoViewHolder objectInfoViewHolder;
+
+    private BottomSheetDialog bottomSheetDialog;
 
     private List<ObjectVisitation> objects;
 
@@ -61,16 +61,11 @@ public class MapFragment extends BaseFragment implements MapView {
         mapView = rootView.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
 
-        final View bottomSheet = rootView.findViewById(R.id.bottom_sheet_info);
-        objectInfoViewHolder = new ObjectInfoViewHolder(bottomSheet);
-
-        infoBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
-        infoBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-
         mapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 map = googleMap;
+                map.getUiSettings().setZoomControlsEnabled(true);
 
                 map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                     @Override
@@ -80,7 +75,7 @@ public class MapFragment extends BaseFragment implements MapView {
                     }
                 });
 
-                if (objects == null) return;
+                if (objects == null || objects.isEmpty()) return;
 
                 drawMarkers();
 
@@ -90,6 +85,12 @@ public class MapFragment extends BaseFragment implements MapView {
                         BOUNDS_PADDING));
             }
         });
+
+        final View bottomInfoView = getActivity().getLayoutInflater().inflate(R.layout.bottom_sheet_object_info, null);
+        objectInfoViewHolder = new ObjectInfoViewHolder(bottomInfoView);
+
+        bottomSheetDialog = new BottomSheetDialog(getActivity());
+        bottomSheetDialog.setContentView(bottomInfoView);
 
         return rootView;
     }
@@ -131,34 +132,8 @@ public class MapFragment extends BaseFragment implements MapView {
     }
 
     @Override
-    public void showObjectInfo(ObjectVisitation object) {
-        setInfoBottomSheetBehavior(object);
+    public void setObjectInfo(final ObjectVisitation object) {
 
-        if (infoBottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
-            infoBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-        }
-    }
-
-    private void drawMarkers() {
-        if (map == null) return;
-
-        map.clear();
-
-        if (objects == null) return;
-
-        boundsBuilder = new LatLngBounds.Builder();
-
-        Marker marker;
-        for (ObjectVisitation object : objects) {
-            marker = map.addMarker(new MarkerOptions()
-                    .position(new LatLng(object.getLat(), object.getLng())).title(object.getName()));
-            marker.setTag(object);
-            boundsBuilder.include(new LatLng(object.getLat(), object.getLng()));
-        }
-    }
-
-
-    private void setInfoBottomSheetBehavior(final ObjectVisitation object) {
         if (object == null) return;
 
         objectInfoViewHolder.nameTextView.setText(object.getName());
@@ -174,7 +149,29 @@ public class MapFragment extends BaseFragment implements MapView {
                 presenter.onVisitTextViewClicked(object);
             }
         });
+    }
 
+    @Override
+    public void showObjectInfo() {
+        bottomSheetDialog.show();
+    }
+
+    private void drawMarkers() {
+        if (map == null) return;
+
+        map.clear();
+
+        if (objects == null || objects.isEmpty()) return;
+
+        boundsBuilder = new LatLngBounds.Builder();
+
+        Marker marker;
+        for (ObjectVisitation object : objects) {
+            marker = map.addMarker(new MarkerOptions()
+                    .position(new LatLng(object.getLat(), object.getLng())).title(object.getName()));
+            marker.setTag(object);
+            boundsBuilder.include(new LatLng(object.getLat(), object.getLng()));
+        }
     }
 
     private class ObjectInfoViewHolder {

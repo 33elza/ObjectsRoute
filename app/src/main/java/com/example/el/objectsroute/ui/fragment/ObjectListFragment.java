@@ -37,12 +37,7 @@ public class ObjectListFragment extends BaseFragment implements ObjectListView {
         super.onCreate(savedInstanceState);
 
         adapter = new ObjectListAdapter(presenter.getObjectAdapterListener());
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        presenter.onStart();
+        presenter.onCreate(getArguments());
     }
 
     @Override
@@ -56,6 +51,11 @@ public class ObjectListFragment extends BaseFragment implements ObjectListView {
         recyclerView.setAdapter(adapter);
 
         return rootView;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.example.el.objectsroute.repository;
 
 import com.example.el.objectsroute.dataclass.ObjectVisitation;
-import com.example.el.objectsroute.dataclass.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +21,7 @@ public class NetworkRepository implements INetworkRepository {
     private NetworkRepository() {
     }
 
-    public Single<Response<List<ObjectVisitation>>> loadObjects() {
+    public Single<List<ObjectVisitation>> loadObjects() {
 
         final List<ObjectVisitation> visitationList = new ArrayList<>();
 
@@ -35,21 +34,11 @@ public class NetworkRepository implements INetworkRepository {
         visitationList.add(new ObjectVisitation(7, false, "Ульяновский строительный колледж", "г.Ульяновск, ул. Любови Шевцовой, 57", 54.354886f, 48.383350f, "обычный", "Планово-предупредительная работа", 15, ""));
         visitationList.add(new ObjectVisitation(8, false, "Гидроаппарат", "г.Ульяновск, Московское ш., 9", 54.300061f, 48.290994f, "обычный", "Планово-предупредительная работа", 15, ""));
 
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return Single.just(new Response<List<ObjectVisitation>>(visitationList));
+        return Single.just(visitationList);
     }
 
     @Override
-    public Single<Response> visitObject(ObjectVisitation object) {
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return Single.just(new Response());
+    public Single<String> visitObject(ObjectVisitation object) {
+        return Single.just("");
     }
 }

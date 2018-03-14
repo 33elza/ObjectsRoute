@@ -15,5 +15,8 @@ import java.util.List;
 public interface MapView extends MvpView, BaseView {
 
     void setObjectMarkers(List<ObjectVisitation> objects);
-    void showObjectInfo(ObjectVisitation object);
+
+    void setObjectInfo(final ObjectVisitation object);
+
+    void showObjectInfo();
 }

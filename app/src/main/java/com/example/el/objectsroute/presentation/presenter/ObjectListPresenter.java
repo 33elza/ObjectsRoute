@@ -1,22 +1,22 @@
 package com.example.el.objectsroute.presentation.presenter;
 
 import android.content.DialogInterface;
+import android.os.Bundle;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.example.el.objectsroute.R;
 import com.example.el.objectsroute.dataclass.ObjectVisitation;
 import com.example.el.objectsroute.dataclass.Response;
-import com.example.el.objectsroute.interactor.GetObjectsInteractor;
-import com.example.el.objectsroute.interactor.RequestType;
 import com.example.el.objectsroute.interactor.VisitObjectInteractor;
 import com.example.el.objectsroute.presentation.view.ObjectListView;
 import com.example.el.objectsroute.ui.adapter.ObjectListAdapter;
 
-import java.util.List;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
+import java.util.List;
 
 /**
  * Created by el on 15.02.2018.
@@ -25,51 +25,34 @@ import io.reactivex.functions.Consumer;
 @InjectViewState
 public class ObjectListPresenter extends MvpPresenter<ObjectListView> {
 
-    private Disposable objectListDisposable;
-    private Disposable visitObjectDisposable;
-
     private List<ObjectVisitation> objects;
+    private int selectedObjectIndex;
 
-    public void onStart() {
+
+    public void onCreate(Bundle arguments) {
+        EventBus.getDefault().register(this);
         if (objects == null) {
             getViewState().showProgressBar();
-            getObjects(RequestType.FORCE_LOAD);
         } else {
-            getObjects(RequestType.CASH_ONLY);
+            getViewState().hideProgressBar();
         }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (objectListDisposable != null && !objectListDisposable.isDisposed()) {
-            objectListDisposable.dispose();
-            objectListDisposable = null;
-        }
-        if (visitObjectDisposable != null && !visitObjectDisposable.isDisposed()) {
-            visitObjectDisposable.dispose();
-            visitObjectDisposable = null;
-        }
+        EventBus.getDefault().unregister(this);
     }
 
-    private void getObjects(int requestType) {
-        if (objectListDisposable != null && !objectListDisposable.isDisposed()) {
-            objectListDisposable.dispose();
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onObjectsEvent(Response.ObjectListResponse response) {
+        if (response.hasError()) {
+            // TODO: 19.02.2018 Обработать ошибку
+        } else {
+            objects = response.getData();
+            getViewState().setObjects(objects);
+            getViewState().hideProgressBar();
         }
-        objectListDisposable = new GetObjectsInteractor()
-                .getObjectList(requestType)
-                .subscribe(new Consumer<Response<List<ObjectVisitation>>>() {
-                    @Override
-                    public void accept(Response<List<ObjectVisitation>> response) throws Exception {
-                        if (response.hasError()) {
-                            // TODO: 19.02.2018 Обработать ошибку
-                        } else {
-                            objects = response.getData();
-                            getViewState().setObjects(objects);
-                            getViewState().hideProgressBar();
-                        }
-                    }
-                });
     }
 
     public ObjectListAdapter.Listener getObjectAdapterListener() {
@@ -98,19 +81,17 @@ public class ObjectListPresenter extends MvpPresenter<ObjectListView> {
     }
 
     private void visitObject(final ObjectVisitation object, final int index) {
-        visitObjectDisposable = new VisitObjectInteractor()
-                .visitObject(object)
-                .subscribe(new Consumer<Response>() {
-                    @Override
-                    public void accept(Response response) throws Exception {
-                        if (response.hasError()) {
-                            // TODO: 19.02.2018 Обработать ошибку
-                        } else {
-                            object.setVisited(true);
-                            getViewState().reloadObject(index);
-                        }
-                    }
-                });
+        selectedObjectIndex = index;
+        new VisitObjectInteractor().visitObject(object);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onObjectVisitedEvent(Response.VisitObjectResponse response) {
+        if (response.hasError()) {
+            // TODO: 19.02.2018 Обработать ошибку
+        } else {
+            response.getData().setVisited(true);
+            getViewState().reloadObject(selectedObjectIndex);
+        }
+    }
 }
