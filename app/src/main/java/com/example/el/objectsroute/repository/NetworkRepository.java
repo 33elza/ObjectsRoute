@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Single;
+import io.reactivex.SingleEmitter;
+import io.reactivex.SingleOnSubscribe;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by el on 01.03.2018.
@@ -34,11 +37,24 @@ public class NetworkRepository implements INetworkRepository {
         visitationList.add(new ObjectVisitation(7, false, "Ульяновский строительный колледж", "г.Ульяновск, ул. Любови Шевцовой, 57", 54.354886f, 48.383350f, "обычный", "Планово-предупредительная работа", 15, ""));
         visitationList.add(new ObjectVisitation(8, false, "Гидроаппарат", "г.Ульяновск, Московское ш., 9", 54.300061f, 48.290994f, "обычный", "Планово-предупредительная работа", 15, ""));
 
-        return Single.just(visitationList);
+        return Single.create(new SingleOnSubscribe<List<ObjectVisitation>>() {
+            @Override
+            public void subscribe(SingleEmitter<List<ObjectVisitation>> emitter) throws Exception {
+                Thread.sleep(5000);
+                emitter.onSuccess(visitationList);
+            }
+        }).observeOn(Schedulers.io());
     }
 
     @Override
     public Single<String> visitObject(ObjectVisitation object) {
-        return Single.just("");
+
+        return Single.create(new SingleOnSubscribe<String>() {
+            @Override
+            public void subscribe(SingleEmitter<String> emitter) throws Exception {
+                Thread.sleep(5000);
+                emitter.onSuccess("");
+            }
+        }).observeOn(Schedulers.io());
     }
 }

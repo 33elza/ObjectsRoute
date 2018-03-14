@@ -46,6 +46,7 @@ public class ObjectListPresenter extends MvpPresenter<ObjectListView> {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onObjectsEvent(Response.ObjectListResponse response) {
+        getViewState().hideProgressBar();
         if (response.hasError()) {
             // TODO: 19.02.2018 Обработать ошибку
         } else {
@@ -81,12 +82,14 @@ public class ObjectListPresenter extends MvpPresenter<ObjectListView> {
     }
 
     private void visitObject(final ObjectVisitation object, final int index) {
+        getViewState().showProgressBar();
         selectedObjectIndex = index;
         new VisitObjectInteractor().visitObject(object);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onObjectVisitedEvent(Response.VisitObjectResponse response) {
+        getViewState().hideProgressBar();
         if (response.hasError()) {
             // TODO: 19.02.2018 Обработать ошибку
         } else {

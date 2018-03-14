@@ -13,4 +13,5 @@
 
         </com.google.android.gms.maps.MapView>
 
+        <include layout="@layout/layout_progress_view" />
 </FrameLayout>

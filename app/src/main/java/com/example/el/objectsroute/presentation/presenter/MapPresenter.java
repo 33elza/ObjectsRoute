@@ -30,7 +30,10 @@ public class MapPresenter extends MvpPresenter<MapView> {
 
     public void onCreate(Bundle arguments) {
         EventBus.getDefault().register(this);
-        if (objects == null) getObjects();
+        if (objects == null) {
+            getViewState().showProgressBar();
+            getObjects();
+        }
     }
 
     @Override
@@ -45,6 +48,7 @@ public class MapPresenter extends MvpPresenter<MapView> {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onObjectsEvent(Response.ObjectsResponse response) {
+        getViewState().hideProgressBar();
         if (response.hasError()) {
             // TODO: 19.02.2018 Обработать ошибку
         } else {
@@ -81,15 +85,16 @@ public class MapPresenter extends MvpPresenter<MapView> {
     }
 
     private void visitObject(final ObjectVisitation object) {
-        // TODO: 12.03.2018 Показать loader
+        getViewState().showProgressBar();
         new VisitObjectInteractor().visitObject(object);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onObjectVisitedEvent(Response.VisitObjectResponse response) {
-        if(response.hasError()) {
+        getViewState().hideProgressBar();
+        if (response.hasError()) {
             // TODO: 19.02.2018 Обработать ошибку
-        } else{
+        } else {
             response.getData().setVisited(true);
             getViewState().setObjectInfo(response.getData());
         }
