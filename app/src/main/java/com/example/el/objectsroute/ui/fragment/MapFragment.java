@@ -78,11 +78,6 @@ public class MapFragment extends BaseFragment implements MapView {
                 if (objects == null || objects.isEmpty()) return;
 
                 drawMarkers();
-
-                map.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(),
-                        getResources().getDisplayMetrics().widthPixels,
-                        getResources().getDisplayMetrics().heightPixels,
-                        BOUNDS_PADDING));
             }
         });
 
@@ -172,6 +167,11 @@ public class MapFragment extends BaseFragment implements MapView {
             marker.setTag(object);
             boundsBuilder.include(new LatLng(object.getLat(), object.getLng()));
         }
+
+        map.animateCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(),
+                getResources().getDisplayMetrics().widthPixels,
+                getResources().getDisplayMetrics().heightPixels,
+                BOUNDS_PADDING));
     }
 
     private class ObjectInfoViewHolder {
