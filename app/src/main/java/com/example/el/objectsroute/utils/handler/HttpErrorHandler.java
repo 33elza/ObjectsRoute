@@ -25,5 +25,4 @@ public class HttpErrorHandler extends BaseHandler {
             view.showError(R.string.unknown_error);
         }
     }
-
 }
