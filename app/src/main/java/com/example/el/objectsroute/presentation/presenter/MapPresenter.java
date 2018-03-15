@@ -12,6 +12,7 @@ import com.example.el.objectsroute.interactor.GetObjectsInteractor;
 import com.example.el.objectsroute.interactor.RequestType;
 import com.example.el.objectsroute.interactor.VisitObjectInteractor;
 import com.example.el.objectsroute.presentation.view.MapView;
+import com.example.el.objectsroute.utils.handler.HttpErrorHandler;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -93,7 +94,7 @@ public class MapPresenter extends MvpPresenter<MapView> {
     public void onObjectVisitedEvent(Response.VisitObjectResponse response) {
         getViewState().hideProgressBar();
         if (response.hasError()) {
-            // TODO: 19.02.2018 Обработать ошибку
+            new HttpErrorHandler(getViewState()).handleError(response.getError());
         } else {
             response.getData().setVisited(true);
             getViewState().setObjectInfo(response.getData());

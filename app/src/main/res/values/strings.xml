@@ -7,16 +7,19 @@
     <string name="visit_text">Посетить</string>
     <string name="make_route_button">Построить маршрут</string>
     <string name="is_visited_text">Посещено</string>
+    <string name="visit_dialog_title">Вы посетили объект?</string>
+    <string name="dialog_button_yes">Да</string>
+    <string name="dialog_button_no">Нет</string>
+    <string name="map_nav_title">Карта</string>
+    <string name="list_nav_title">Список объектов</string>
+
 
     <!--Errors-->
     <string name="empty_email_error">E-mail не заполнен</string>
     <string name="invalid_email_error">Указан неверный адрес электронной почты</string>
     <string name="empty_password_error">Введите пароль</string>
     <string name="invalid_password_error">Пароль должен содержать минимум 8 символов, по крайней мере одна буква и одно число</string>
-    <string name="visit_dialog_title">Вы посетили объект?</string>
-    <string name="dialog_button_yes">Да</string>
-    <string name="dialog_button_no">Нет</string>
-    <string name="map_nav_title">Карта</string>
-    <string name="list_nav_title">Список объектов</string>
+    <string name="no_internet_error">Отсутствует соединение к сети интернет</string>
+    <string name="unknown_error">Произошла неизвестная ошибка</string>
 
 </resources>
