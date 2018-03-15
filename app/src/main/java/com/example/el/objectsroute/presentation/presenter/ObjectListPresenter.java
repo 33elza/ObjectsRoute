@@ -11,6 +11,7 @@ import com.example.el.objectsroute.dataclass.Response;
 import com.example.el.objectsroute.interactor.VisitObjectInteractor;
 import com.example.el.objectsroute.presentation.view.ObjectListView;
 import com.example.el.objectsroute.ui.adapter.ObjectListAdapter;
+import com.example.el.objectsroute.utils.handler.HttpErrorHandler;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -91,7 +92,7 @@ public class ObjectListPresenter extends MvpPresenter<ObjectListView> {
     public void onObjectVisitedEvent(Response.VisitObjectResponse response) {
         getViewState().hideProgressBar();
         if (response.hasError()) {
-            // TODO: 19.02.2018 Обработать ошибку
+            new HttpErrorHandler(getViewState()).handleError(response.getError());
         } else {
             response.getData().setVisited(true);
             getViewState().reloadObject(selectedObjectIndex);

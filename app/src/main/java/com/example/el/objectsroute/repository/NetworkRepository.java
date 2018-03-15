@@ -9,6 +9,11 @@ import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
 import io.reactivex.SingleOnSubscribe;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
+import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 /**
  * Created by el on 01.03.2018.
@@ -17,11 +22,20 @@ import io.reactivex.schedulers.Schedulers;
 public class NetworkRepository implements INetworkRepository {
     private static final NetworkRepository ourInstance = new NetworkRepository();
 
+    private RetrofitService service;
+
     public static NetworkRepository getInstance() {
         return ourInstance;
     }
 
     private NetworkRepository() {
+        service = new Retrofit
+                .Builder()
+                .baseUrl("https://api.github.com/")
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+                .build()
+                .create(RetrofitService.class);
     }
 
     public Single<List<ObjectVisitation>> loadObjects() {
@@ -49,12 +63,11 @@ public class NetworkRepository implements INetworkRepository {
     @Override
     public Single<String> visitObject(ObjectVisitation object) {
 
-        return Single.create(new SingleOnSubscribe<String>() {
-            @Override
-            public void subscribe(SingleEmitter<String> emitter) throws Exception {
-                Thread.sleep(5000);
-                emitter.onSuccess("");
-            }
-        }).observeOn(Schedulers.io());
+        return service.visitObject("nikitalevchenko");
+    }
+
+    private interface RetrofitService {
+        @GET("users/{user}/repos")
+        Single<String> visitObject(@Path("user") String user);
     }
 }

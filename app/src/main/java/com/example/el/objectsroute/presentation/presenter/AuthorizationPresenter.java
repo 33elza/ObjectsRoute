@@ -11,6 +11,7 @@ import com.example.el.objectsroute.App;
 import com.example.el.objectsroute.dataclass.Response;
 import com.example.el.objectsroute.interactor.LoginInteractor;
 import com.example.el.objectsroute.presentation.view.AuthorizationView;
+import com.example.el.objectsroute.utils.handler.HttpErrorHandler;
 import com.example.el.objectsroute.utils.validator.BaseValidator;
 import com.example.el.objectsroute.utils.validator.EmailValidator;
 import com.example.el.objectsroute.utils.validator.PasswordValidator;
@@ -83,7 +84,7 @@ public class AuthorizationPresenter extends MvpPresenter<AuthorizationView> {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLoginEvent(Response.LoginResponse response) {
         if (response.hasError()) {
-            // TODO: 19.02.2018 Обработать ошибку
+            new HttpErrorHandler(getViewState()).handleError(response.getError());
         } else {
             App.getRouter().goToObjectList();
         }
