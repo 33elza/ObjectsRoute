@@ -15,6 +15,7 @@ import com.example.el.objectsroute.presentation.view.MapView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -43,6 +44,9 @@ public class MapFragment extends BaseFragment implements MapView {
 
     private List<ObjectVisitation> objects;
 
+    private CameraPosition previousCameraPosition;
+    private static final String KEY_CAMERA_POSITION = "camera_position";
+
     public static MapFragment getInstance() {
         return new MapFragment();
     }
@@ -51,6 +55,18 @@ public class MapFragment extends BaseFragment implements MapView {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter.onCreate(getArguments());
+
+        if (savedInstanceState != null) {
+            previousCameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        if (map != null) {
+            outState.putParcelable(KEY_CAMERA_POSITION, map.getCameraPosition());
+            super.onSaveInstanceState(outState);
+        }
     }
 
     @Override
@@ -76,7 +92,6 @@ public class MapFragment extends BaseFragment implements MapView {
                 });
 
                 if (objects == null || objects.isEmpty()) return;
-
                 drawMarkers();
             }
         });
@@ -168,10 +183,14 @@ public class MapFragment extends BaseFragment implements MapView {
             boundsBuilder.include(new LatLng(object.getLat(), object.getLng()));
         }
 
-        map.animateCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(),
-                getResources().getDisplayMetrics().widthPixels,
-                getResources().getDisplayMetrics().heightPixels,
-                BOUNDS_PADDING));
+        if (previousCameraPosition != null) {
+            map.moveCamera(CameraUpdateFactory.newCameraPosition(previousCameraPosition));
+        } else {
+            map.animateCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(),
+                    getResources().getDisplayMetrics().widthPixels,
+                    getResources().getDisplayMetrics().heightPixels,
+                    BOUNDS_PADDING));
+        }
     }
 
     private class ObjectInfoViewHolder {
