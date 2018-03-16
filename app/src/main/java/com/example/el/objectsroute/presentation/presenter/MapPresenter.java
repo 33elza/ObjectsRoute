@@ -30,7 +30,9 @@ public class MapPresenter extends MvpPresenter<MapView> {
     private List<ObjectVisitation> objects;
 
     public void onCreate(Bundle arguments) {
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         if (objects == null) {
             getViewState().showProgressBar();
             getObjects();

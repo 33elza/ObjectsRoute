@@ -31,7 +31,9 @@ public class ObjectListPresenter extends MvpPresenter<ObjectListView> {
 
 
     public void onCreate(Bundle arguments) {
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         if (objects == null) {
             getViewState().showProgressBar();
         } else {
