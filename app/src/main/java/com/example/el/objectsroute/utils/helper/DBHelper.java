@@ -11,15 +11,16 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
-    private static final String objectVisitationTable = "OBJECT_VISITATION";
+    public final String OBJECT_VISITATION_TABLE = "OBJECT_VISITATION";
+    private static final String DB_NAME = "orDB";
 
     public DBHelper(Context context) {
-        super(context, "orDB", null, DATABASE_VERSION);
+        super(context, DB_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + objectVisitationTable + "("
+        db.execSQL("create table " + OBJECT_VISITATION_TABLE + "("
                 + "_id integer primary key, "
                 + "name text, "
                 + "address text, "

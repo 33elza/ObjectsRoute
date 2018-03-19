@@ -19,10 +19,21 @@ public class DbRepository implements IDbRepository {
     private static final DbRepository ourInstance = new DbRepository();
 
     private SQLiteDatabase db;
-    private static final String objectVisitationTable = "OBJECT_VISITATION";
+    private DBHelper dbHelper;
+
+    private static final String ID_COLUMN = "_id";
+    private static final String NAME_COLUMN = "name";
+    private static final String ADDRESS_COLUMN = "address";
+    private static final String LAT_COLUMN = "lat";
+    private static final String LNG_COLUMN = "lng";
+    private static final String PRIORITY_COLUMN = "priority";
+    private static final String WORK_COLUMN = "work";
+    private static final String TIME_COLUMN = "time";
+    private static final String INSTRUMENTS_COLUMN = "instruments";
+    private static final String IS_VISITED_COLUMN = "isVisited";
 
     private DbRepository() {
-        DBHelper dbHelper = new DBHelper(App.getAppContext());
+        dbHelper = new DBHelper(App.getAppContext());
         db = dbHelper.getWritableDatabase();
     }
 
@@ -32,40 +43,42 @@ public class DbRepository implements IDbRepository {
 
     @Override
     public void saveObjects(List<ObjectVisitation> objects) {
+        db.delete(dbHelper.OBJECT_VISITATION_TABLE, null, null);
+
         ContentValues cv;
         for (ObjectVisitation object : objects) {
             cv = new ContentValues();
 
-            cv.put("name", object.getName());
-            cv.put("address", object.getAddress());
-            cv.put("lat", object.getLat());
-            cv.put("lng", object.getLng());
-            cv.put("priority", object.getPriority());
-            cv.put("work", object.getWork());
-            cv.put("time", object.getTime());
-            cv.put("instruments", object.getInstruments());
-            cv.put("isVisited", (object.isVisited() ? 1 : 0));
+            cv.put(NAME_COLUMN, object.getName());
+            cv.put(ADDRESS_COLUMN, object.getAddress());
+            cv.put(LAT_COLUMN, object.getLat());
+            cv.put(LNG_COLUMN, object.getLng());
+            cv.put(PRIORITY_COLUMN, object.getPriority());
+            cv.put(WORK_COLUMN, object.getWork());
+            cv.put(TIME_COLUMN, object.getTime());
+            cv.put(INSTRUMENTS_COLUMN, object.getInstruments());
+            cv.put(IS_VISITED_COLUMN, (object.isVisited() ? 1 : 0));
 
-            db.insert(objectVisitationTable, null, cv);
+            db.insert(dbHelper.OBJECT_VISITATION_TABLE, null, cv);
         }
     }
 
     @Override
     public List<ObjectVisitation> getObjects() {
         ArrayList<ObjectVisitation> objects = new ArrayList<>();
-        Cursor cursor = db.query(objectVisitationTable, null, null, null, null, null, null);
+        Cursor cursor = db.query(dbHelper.OBJECT_VISITATION_TABLE, null, null, null, null, null, null);
 
         if (cursor.moveToFirst()) {
-            int idColIndex = cursor.getColumnIndex("_id");
-            int nameColIndex = cursor.getColumnIndex("name");
-            int addressColIndex = cursor.getColumnIndex("address");
-            int latColIndex = cursor.getColumnIndex("lat");
-            int lngColIndex = cursor.getColumnIndex("lng");
-            int priorityColIndex = cursor.getColumnIndex("priority");
-            int workColIndex = cursor.getColumnIndex("work");
-            int timeColIndex = cursor.getColumnIndex("time");
-            int instrumentsColIndex = cursor.getColumnIndex("instruments");
-            int isVisitedColIndex = cursor.getColumnIndex("isVisited");
+            int idColIndex = cursor.getColumnIndex(ID_COLUMN);
+            int nameColIndex = cursor.getColumnIndex(NAME_COLUMN);
+            int addressColIndex = cursor.getColumnIndex(ADDRESS_COLUMN);
+            int latColIndex = cursor.getColumnIndex(LAT_COLUMN);
+            int lngColIndex = cursor.getColumnIndex(LNG_COLUMN);
+            int priorityColIndex = cursor.getColumnIndex(PRIORITY_COLUMN);
+            int workColIndex = cursor.getColumnIndex(WORK_COLUMN);
+            int timeColIndex = cursor.getColumnIndex(TIME_COLUMN);
+            int instrumentsColIndex = cursor.getColumnIndex(INSTRUMENTS_COLUMN);
+            int isVisitedColIndex = cursor.getColumnIndex(IS_VISITED_COLUMN);
 
             do {
                 objects.add(new ObjectVisitation(cursor.getInt(idColIndex),
@@ -86,8 +99,8 @@ public class DbRepository implements IDbRepository {
 
     @Override
     public void updateObject(ObjectVisitation object) {
-        ContentValues cv = new ContentValues();
-        cv.put("isVisited", 1);
-        db.update(objectVisitationTable, cv, "_id = ?", new String[]{Long.toString(object.getId())});
+        final ContentValues cv = new ContentValues();
+        cv.put(IS_VISITED_COLUMN, 1);
+        db.update(dbHelper.OBJECT_VISITATION_TABLE, cv, ID_COLUMN + " = ?", new String[]{Long.toString(object.getId())});
     }
 }
