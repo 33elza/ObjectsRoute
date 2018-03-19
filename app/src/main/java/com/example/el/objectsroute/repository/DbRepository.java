@@ -11,6 +11,18 @@ import com.example.el.objectsroute.utils.helper.DBHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.el.objectsroute.utils.helper.DBHelper.ADDRESS_COLUMN;
+import static com.example.el.objectsroute.utils.helper.DBHelper.ID_COLUMN;
+import static com.example.el.objectsroute.utils.helper.DBHelper.INSTRUMENTS_COLUMN;
+import static com.example.el.objectsroute.utils.helper.DBHelper.IS_VISITED_COLUMN;
+import static com.example.el.objectsroute.utils.helper.DBHelper.LAT_COLUMN;
+import static com.example.el.objectsroute.utils.helper.DBHelper.LNG_COLUMN;
+import static com.example.el.objectsroute.utils.helper.DBHelper.NAME_COLUMN;
+import static com.example.el.objectsroute.utils.helper.DBHelper.OBJECT_VISITATION_TABLE;
+import static com.example.el.objectsroute.utils.helper.DBHelper.PRIORITY_COLUMN;
+import static com.example.el.objectsroute.utils.helper.DBHelper.TIME_COLUMN;
+import static com.example.el.objectsroute.utils.helper.DBHelper.WORK_COLUMN;
+
 /**
  * Created by el on 11.03.2018.
  */
@@ -19,21 +31,10 @@ public class DbRepository implements IDbRepository {
     private static final DbRepository ourInstance = new DbRepository();
 
     private SQLiteDatabase db;
-    private DBHelper dbHelper;
 
-    private static final String ID_COLUMN = "_id";
-    private static final String NAME_COLUMN = "name";
-    private static final String ADDRESS_COLUMN = "address";
-    private static final String LAT_COLUMN = "lat";
-    private static final String LNG_COLUMN = "lng";
-    private static final String PRIORITY_COLUMN = "priority";
-    private static final String WORK_COLUMN = "work";
-    private static final String TIME_COLUMN = "time";
-    private static final String INSTRUMENTS_COLUMN = "instruments";
-    private static final String IS_VISITED_COLUMN = "isVisited";
 
     private DbRepository() {
-        dbHelper = new DBHelper(App.getAppContext());
+        DBHelper dbHelper = new DBHelper(App.getAppContext());
         db = dbHelper.getWritableDatabase();
     }
 
@@ -43,7 +44,7 @@ public class DbRepository implements IDbRepository {
 
     @Override
     public void saveObjects(List<ObjectVisitation> objects) {
-        db.delete(dbHelper.OBJECT_VISITATION_TABLE, null, null);
+        db.delete(OBJECT_VISITATION_TABLE, null, null);
 
         ContentValues cv;
         for (ObjectVisitation object : objects) {
@@ -59,14 +60,14 @@ public class DbRepository implements IDbRepository {
             cv.put(INSTRUMENTS_COLUMN, object.getInstruments());
             cv.put(IS_VISITED_COLUMN, (object.isVisited() ? 1 : 0));
 
-            db.insert(dbHelper.OBJECT_VISITATION_TABLE, null, cv);
+            db.insert(OBJECT_VISITATION_TABLE, null, cv);
         }
     }
 
     @Override
     public List<ObjectVisitation> getObjects() {
         ArrayList<ObjectVisitation> objects = new ArrayList<>();
-        Cursor cursor = db.query(dbHelper.OBJECT_VISITATION_TABLE, null, null, null, null, null, null);
+        Cursor cursor = db.query(OBJECT_VISITATION_TABLE, null, null, null, null, null, null);
 
         if (cursor.moveToFirst()) {
             int idColIndex = cursor.getColumnIndex(ID_COLUMN);
@@ -101,6 +102,6 @@ public class DbRepository implements IDbRepository {
     public void updateObject(ObjectVisitation object) {
         final ContentValues cv = new ContentValues();
         cv.put(IS_VISITED_COLUMN, 1);
-        db.update(dbHelper.OBJECT_VISITATION_TABLE, cv, ID_COLUMN + " = ?", new String[]{Long.toString(object.getId())});
+        db.update(OBJECT_VISITATION_TABLE, cv, ID_COLUMN + " = ?", new String[]{Long.toString(object.getId())});
     }
 }
