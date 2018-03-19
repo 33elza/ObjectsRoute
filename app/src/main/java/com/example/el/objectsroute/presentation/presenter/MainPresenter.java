@@ -27,6 +27,8 @@ public class MainPresenter extends MvpPresenter<MainView> implements Router {
     public void onCreate() {
         App.setRouter(this);
 
+        App.getRouter().goToAuthorization();
+
 //        if (settingsRepository.hasAccessToken()) {
 //            App.getRouter().goToObjectList();
 //        } else {
@@ -80,7 +82,7 @@ public class MainPresenter extends MvpPresenter<MainView> implements Router {
 
             @Override
             public void onPageSelected(int position) {
-                switch (position){
+                switch (position) {
                     case MainViewPagerAdapter.MAP_INDEX:
                         App.getRouter().goToMap();
                         break;

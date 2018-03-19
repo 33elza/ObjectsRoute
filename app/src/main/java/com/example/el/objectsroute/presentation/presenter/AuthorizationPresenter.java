@@ -1,13 +1,11 @@
 package com.example.el.objectsroute.presentation.presenter;
 
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import com.example.el.objectsroute.App;
 import com.example.el.objectsroute.dataclass.Response;
 import com.example.el.objectsroute.interactor.LoginInteractor;
 import com.example.el.objectsroute.presentation.view.AuthorizationView;
@@ -33,14 +31,12 @@ public class AuthorizationPresenter extends MvpPresenter<AuthorizationView> {
     private String email;
     private String password;
 
-    public void onCreate(Bundle arguments) {
+    public void onCreate() {
+
         emailValidator = new EmailValidator();
         passwordValidator = new PasswordValidator();
 
         EventBus.getDefault().register(this);
-    }
-
-    public void onCreateView() {
     }
 
     @Override
@@ -78,7 +74,6 @@ public class AuthorizationPresenter extends MvpPresenter<AuthorizationView> {
 
     private void login() {
         new LoginInteractor().login(email, password);
-
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -86,10 +81,9 @@ public class AuthorizationPresenter extends MvpPresenter<AuthorizationView> {
         if (response.hasError()) {
             new HttpErrorHandler(getViewState()).handleError(response.getError());
         } else {
-            App.getRouter().goToObjectList();
+            getViewState().finishActivity();
         }
     }
-
 
     public TextWatcher getEmailTextWatcher() {
         return new TextWatcher() {
