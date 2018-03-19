@@ -61,9 +61,9 @@ public class DbRepository implements IDbRepository {
             cv.put(IS_VISITED_COLUMN, (object.isVisited() ? 1 : 0));
 
             db.insert(OBJECT_VISITATION_TABLE, null, cv);
-            db.setTransactionSuccessful();
-            db.endTransaction();
         }
+        db.setTransactionSuccessful();
+        db.endTransaction();
     }
 
     @Override
