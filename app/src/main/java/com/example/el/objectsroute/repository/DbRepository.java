@@ -34,8 +34,7 @@ public class DbRepository implements IDbRepository {
 
 
     private DbRepository() {
-        DBHelper dbHelper = new DBHelper(App.getAppContext());
-        db = dbHelper.getWritableDatabase();
+        db = new DBHelper(App.getAppContext()).getWritableDatabase();
     }
 
     public static DbRepository getInstance() {
@@ -44,6 +43,7 @@ public class DbRepository implements IDbRepository {
 
     @Override
     public void saveObjects(List<ObjectVisitation> objects) {
+        db.beginTransaction();
         db.delete(OBJECT_VISITATION_TABLE, null, null);
 
         ContentValues cv;
@@ -61,6 +61,8 @@ public class DbRepository implements IDbRepository {
             cv.put(IS_VISITED_COLUMN, (object.isVisited() ? 1 : 0));
 
             db.insert(OBJECT_VISITATION_TABLE, null, cv);
+            db.setTransactionSuccessful();
+            db.endTransaction();
         }
     }
 
