@@ -17,7 +17,7 @@ import com.example.el.objectsroute.ui.activity.BaseActivity;
 
 public class BaseFragment extends MvpAppCompatFragment implements BaseView, BaseRouter {
 
-    private View progressView;;
+    private View progressView;
 
     @Override
     public void showError(int error) {
