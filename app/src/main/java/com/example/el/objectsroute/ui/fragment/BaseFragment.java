@@ -7,7 +7,6 @@ import android.view.View;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.example.el.objectsroute.R;
 import com.example.el.objectsroute.presentation.view.BaseView;
-import com.example.el.objectsroute.repository.NetworkRepository;
 import com.example.el.objectsroute.router.BaseRouter;
 import com.example.el.objectsroute.ui.activity.AuthorizationActivity;
 import com.example.el.objectsroute.ui.activity.BaseActivity;

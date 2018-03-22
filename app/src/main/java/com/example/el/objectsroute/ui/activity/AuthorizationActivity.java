@@ -9,7 +9,6 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.el.objectsroute.R;
 import com.example.el.objectsroute.presentation.presenter.AuthorizationPresenter;
 import com.example.el.objectsroute.presentation.view.AuthorizationView;
-import com.example.el.objectsroute.router.AuthorizationRouter;
 
 public class AuthorizationActivity extends BaseActivity implements AuthorizationView {
 
