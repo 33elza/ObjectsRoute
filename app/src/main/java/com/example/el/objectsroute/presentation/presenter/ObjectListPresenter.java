@@ -51,11 +51,10 @@ public class ObjectListPresenter extends MvpPresenter<ObjectListView> {
     public void onObjectsEvent(Response.ObjectListResponse response) {
         getViewState().hideProgressBar();
         if (response.hasError()) {
-            // TODO: 19.02.2018 Обработать ошибку
+            new HttpErrorHandler(getViewState()).handleError(response.getError());
         } else {
             objects = response.getData();
             getViewState().setObjects(objects);
-            getViewState().hideProgressBar();
         }
     }
 

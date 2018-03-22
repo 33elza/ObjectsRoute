@@ -9,11 +9,15 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.example.el.objectsroute.App;
 import com.example.el.objectsroute.R;
+import com.example.el.objectsroute.dataclass.Response;
+import com.example.el.objectsroute.interactor.GetAuthStatusInteractor;
 import com.example.el.objectsroute.presentation.view.MainView;
-import com.example.el.objectsroute.repository.ISettingsRepository;
-import com.example.el.objectsroute.repository.SharedPreferencesRepository;
 import com.example.el.objectsroute.router.Router;
 import com.example.el.objectsroute.ui.adapter.MainViewPagerAdapter;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Created by el on 15.02.2018.
@@ -22,18 +26,28 @@ import com.example.el.objectsroute.ui.adapter.MainViewPagerAdapter;
 @InjectViewState
 public class MainPresenter extends MvpPresenter<MainView> implements Router {
 
-    private ISettingsRepository settingsRepository = SharedPreferencesRepository.getInstance();
-
     public void onCreate() {
         App.setRouter(this);
 
-        App.getRouter().goToAuthorization();
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+        new GetAuthStatusInteractor().getAuthStatus();
+    }
 
-//        if (settingsRepository.hasAccessToken()) {
-//            App.getRouter().goToObjectList();
-//        } else {
-//            App.getRouter().goToAuthorization();
-//        }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onGetAuthEvent(Response.AuthStatusResponse response) {
+        if (response.isAuthorized()) {
+            getViewState().setupInitialState();
+        } else {
+            App.getRouter().goToAuthorization();
+        }
     }
 
     @Override

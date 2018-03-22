@@ -12,4 +12,6 @@ import com.example.el.objectsroute.router.Router;
 @StateStrategyType(SingleStateStrategy.class)
 public interface MainView extends MvpView, Router {
     void showMessage(CharSequence message);
+
+    void setupInitialState();
 }

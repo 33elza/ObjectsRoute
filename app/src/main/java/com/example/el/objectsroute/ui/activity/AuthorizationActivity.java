@@ -1,5 +1,6 @@
 package com.example.el.objectsroute.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,5 +39,9 @@ public class AuthorizationActivity extends BaseActivity implements Authorization
     @Override
     public void finishActivity() {
         finish();
+
+        final Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     }
 }

@@ -36,7 +36,9 @@ public class AuthorizationPresenter extends MvpPresenter<AuthorizationView> {
         emailValidator = new EmailValidator();
         passwordValidator = new PasswordValidator();
 
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override

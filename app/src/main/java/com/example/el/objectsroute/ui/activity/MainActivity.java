@@ -25,13 +25,18 @@ public class MainActivity extends BaseActivity implements MainView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        presenter.onCreate();
+    }
+
+    @Override
+    public void setupInitialState() {
         viewPager = findViewById(R.id.viewPager);
         viewPager.setAdapter(new MainViewPagerAdapter(getSupportFragmentManager()));
         viewPager.addOnPageChangeListener(presenter.getOnPageChangeListener());
 
         bottomNavigationView = findViewById(R.id.bottomNavView);
         bottomNavigationView.setOnNavigationItemSelectedListener(presenter.getOnNavigationItemSelectedListener());
-        presenter.onCreate();
+       // showProgressBar();
     }
 
     @Override
@@ -49,9 +54,11 @@ public class MainActivity extends BaseActivity implements MainView {
 
     @Override
     public void goToAuthorization() {
-        final Intent intent = new Intent(MainActivity.this, AuthorizationActivity.class);
+        final Intent intent = new Intent(this, AuthorizationActivity.class);
         startActivity(intent);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        finish();
     }
 
     @Override

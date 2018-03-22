@@ -16,7 +16,7 @@ import com.example.el.objectsroute.presentation.view.BaseView;
 
 public class BaseActivity extends MvpAppCompatActivity implements BaseView {
 
-    private View progressView;
+    public View progressView;
 
     @Override
     public void showError(int error) {
