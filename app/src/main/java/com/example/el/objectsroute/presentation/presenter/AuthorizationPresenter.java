@@ -6,9 +6,11 @@ import android.view.View;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+import com.example.el.objectsroute.App;
 import com.example.el.objectsroute.dataclass.Response;
 import com.example.el.objectsroute.interactor.LoginInteractor;
 import com.example.el.objectsroute.presentation.view.AuthorizationView;
+import com.example.el.objectsroute.router.AuthorizationRouter;
 import com.example.el.objectsroute.utils.handler.HttpErrorHandler;
 import com.example.el.objectsroute.utils.validator.BaseValidator;
 import com.example.el.objectsroute.utils.validator.EmailValidator;
@@ -23,7 +25,7 @@ import org.greenrobot.eventbus.ThreadMode;
  */
 
 @InjectViewState
-public class AuthorizationPresenter extends MvpPresenter<AuthorizationView> {
+public class AuthorizationPresenter extends MvpPresenter<AuthorizationView> implements AuthorizationRouter {
 
     private EmailValidator emailValidator;
     private PasswordValidator passwordValidator;
@@ -83,7 +85,7 @@ public class AuthorizationPresenter extends MvpPresenter<AuthorizationView> {
         if (response.hasError()) {
             new HttpErrorHandler(getViewState()).handleError(response.getError());
         } else {
-            getViewState().finishActivity();
+            finishActivity();
         }
     }
 
@@ -123,5 +125,10 @@ public class AuthorizationPresenter extends MvpPresenter<AuthorizationView> {
 
             }
         };
+    }
+
+    @Override
+    public void finishActivity() {
+        getViewState().finishActivity();
     }
 }

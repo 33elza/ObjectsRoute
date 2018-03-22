@@ -36,7 +36,6 @@ public class MainActivity extends BaseActivity implements MainView {
 
         bottomNavigationView = findViewById(R.id.bottomNavView);
         bottomNavigationView.setOnNavigationItemSelectedListener(presenter.getOnNavigationItemSelectedListener());
-       // showProgressBar();
     }
 
     @Override
