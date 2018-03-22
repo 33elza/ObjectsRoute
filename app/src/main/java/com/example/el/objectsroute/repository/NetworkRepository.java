@@ -1,7 +1,6 @@
 package com.example.el.objectsroute.repository;
 
 import com.example.el.objectsroute.dataclass.ObjectVisitation;
-import com.example.el.objectsroute.ui.fragment.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;

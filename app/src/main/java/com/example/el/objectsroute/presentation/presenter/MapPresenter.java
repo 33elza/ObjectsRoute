@@ -12,6 +12,7 @@ import com.example.el.objectsroute.interactor.GetObjectsInteractor;
 import com.example.el.objectsroute.interactor.RequestType;
 import com.example.el.objectsroute.interactor.VisitObjectInteractor;
 import com.example.el.objectsroute.presentation.view.MapView;
+import com.example.el.objectsroute.router.MapRouter;
 import com.example.el.objectsroute.utils.handler.HttpErrorHandler;
 
 import org.greenrobot.eventbus.EventBus;
@@ -55,7 +56,7 @@ public class MapPresenter extends MvpPresenter<MapView> {
     public void onObjectsEvent(Response.ObjectsResponse response) {
         getViewState().hideProgressBar();
         if (response.hasError()) {
-            new HttpErrorHandler(getViewState()).handleError(response.getError());
+            new HttpErrorHandler(getViewState()).handleError(response.getError(), getRouter());
         } else {
             objects = response.getData();
             getViewState().setObjectMarkers(objects);
@@ -103,5 +104,9 @@ public class MapPresenter extends MvpPresenter<MapView> {
             response.getData().setVisited(true);
             getViewState().setObjectInfo(response.getData());
         }
+    }
+
+    public MapRouter getRouter(){
+        return getViewState();
     }
 }

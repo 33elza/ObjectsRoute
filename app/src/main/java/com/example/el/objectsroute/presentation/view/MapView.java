@@ -4,6 +4,7 @@ import com.arellomobile.mvp.MvpView;
 import com.arellomobile.mvp.viewstate.strategy.SingleStateStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import com.example.el.objectsroute.dataclass.ObjectVisitation;
+import com.example.el.objectsroute.router.MapRouter;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  */
 
 @StateStrategyType(SingleStateStrategy.class)
-public interface MapView extends MvpView, BaseView {
+public interface MapView extends MvpView, BaseView, MapRouter {
 
     void setObjectMarkers(List<ObjectVisitation> objects);
 
