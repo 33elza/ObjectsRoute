@@ -75,6 +75,18 @@ public abstract class Response<T> {
             super(error);
         }
     }
+
+    public static class AuthStatusResponse  {
+        private boolean isAuthorized;
+
+        public AuthStatusResponse(boolean isAuthorized) {
+            this.isAuthorized = isAuthorized;
+        }
+
+        public boolean isAuthorized() {
+            return isAuthorized;
+        }
+    }
 }
 
 

@@ -1,16 +1,15 @@
 package com.example.el.objectsroute.presentation.presenter;
 
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import com.example.el.objectsroute.App;
 import com.example.el.objectsroute.dataclass.Response;
 import com.example.el.objectsroute.interactor.LoginInteractor;
 import com.example.el.objectsroute.presentation.view.AuthorizationView;
+import com.example.el.objectsroute.router.AuthorizationRouter;
 import com.example.el.objectsroute.utils.handler.HttpErrorHandler;
 import com.example.el.objectsroute.utils.validator.BaseValidator;
 import com.example.el.objectsroute.utils.validator.EmailValidator;
@@ -33,14 +32,14 @@ public class AuthorizationPresenter extends MvpPresenter<AuthorizationView> {
     private String email;
     private String password;
 
-    public void onCreate(Bundle arguments) {
+    public void onCreate() {
+
         emailValidator = new EmailValidator();
         passwordValidator = new PasswordValidator();
 
-        EventBus.getDefault().register(this);
-    }
-
-    public void onCreateView() {
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override
@@ -78,7 +77,6 @@ public class AuthorizationPresenter extends MvpPresenter<AuthorizationView> {
 
     private void login() {
         new LoginInteractor().login(email, password);
-
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -86,10 +84,9 @@ public class AuthorizationPresenter extends MvpPresenter<AuthorizationView> {
         if (response.hasError()) {
             new HttpErrorHandler(getViewState()).handleError(response.getError());
         } else {
-            App.getRouter().goToObjectList();
+            getRouter().goToMain();
         }
     }
-
 
     public TextWatcher getEmailTextWatcher() {
         return new TextWatcher() {
@@ -128,4 +125,9 @@ public class AuthorizationPresenter extends MvpPresenter<AuthorizationView> {
             }
         };
     }
+
+    private AuthorizationRouter getRouter() {
+        return getViewState();
+    }
+
 }

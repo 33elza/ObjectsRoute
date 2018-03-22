@@ -1,18 +1,18 @@
 package com.example.el.objectsroute.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
 import android.widget.Toast;
 
-import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.el.objectsroute.R;
 import com.example.el.objectsroute.presentation.presenter.MainPresenter;
 import com.example.el.objectsroute.presentation.view.MainView;
 import com.example.el.objectsroute.ui.adapter.MainViewPagerAdapter;
 
-public class MainActivity extends MvpAppCompatActivity implements MainView {
+public class MainActivity extends BaseActivity implements MainView {
 
     @InjectPresenter
     MainPresenter presenter;
@@ -25,13 +25,17 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        presenter.onCreate();
+    }
+
+    @Override
+    public void setupInitialState() {
         viewPager = findViewById(R.id.viewPager);
         viewPager.setAdapter(new MainViewPagerAdapter(getSupportFragmentManager()));
         viewPager.addOnPageChangeListener(presenter.getOnPageChangeListener());
 
         bottomNavigationView = findViewById(R.id.bottomNavView);
         bottomNavigationView.setOnNavigationItemSelectedListener(presenter.getOnNavigationItemSelectedListener());
-        presenter.onCreate();
     }
 
     @Override
@@ -49,7 +53,11 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
 
     @Override
     public void goToAuthorization() {
+        final Intent intent = new Intent(this, AuthorizationActivity.class);
+        startActivity(intent);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
+        finish();
     }
 
     @Override

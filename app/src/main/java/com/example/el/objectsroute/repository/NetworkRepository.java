@@ -70,4 +70,15 @@ public class NetworkRepository implements INetworkRepository {
         @GET("users/{user}/repos")
         Single<String> visitObject(@Path("user") String user);
     }
+
+
+    public class GoToAuthException extends Exception {
+
+        public GoToAuthException() {
+        }
+
+        public GoToAuthException(String message) {
+            super(message);
+        }
+    }
 }

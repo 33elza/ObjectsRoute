@@ -7,51 +7,44 @@ import android.view.MenuItem;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import com.example.el.objectsroute.App;
 import com.example.el.objectsroute.R;
+import com.example.el.objectsroute.dataclass.Response;
+import com.example.el.objectsroute.interactor.GetAuthStatusInteractor;
 import com.example.el.objectsroute.presentation.view.MainView;
-import com.example.el.objectsroute.repository.ISettingsRepository;
-import com.example.el.objectsroute.repository.SharedPreferencesRepository;
-import com.example.el.objectsroute.router.Router;
+import com.example.el.objectsroute.router.MainRouter;
 import com.example.el.objectsroute.ui.adapter.MainViewPagerAdapter;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Created by el on 15.02.2018.
  */
 
 @InjectViewState
-public class MainPresenter extends MvpPresenter<MainView> implements Router {
-
-    private ISettingsRepository settingsRepository = SharedPreferencesRepository.getInstance();
+public class MainPresenter extends MvpPresenter<MainView> {
 
     public void onCreate() {
-        App.setRouter(this);
-
-//        if (settingsRepository.hasAccessToken()) {
-//            App.getRouter().goToObjectList();
-//        } else {
-//            App.getRouter().goToAuthorization();
-//        }
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+        new GetAuthStatusInteractor().getAuthStatus();
     }
 
     @Override
-    public void goToMap() {
-        getViewState().goToMap();
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
-    @Override
-    public void goBack() {
-        getViewState().goBack();
-    }
-
-    @Override
-    public void goToAuthorization() {
-        getViewState().goToAuthorization();
-    }
-
-    @Override
-    public void goToObjectList() {
-        getViewState().goToObjectList();
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onGetAuthEvent(Response.AuthStatusResponse response) {
+        if (response.isAuthorized()) {
+            getViewState().setupInitialState();
+        } else {
+            getRouter().goToAuthorization();
+        }
     }
 
     public BottomNavigationView.OnNavigationItemSelectedListener getOnNavigationItemSelectedListener() {
@@ -60,10 +53,10 @@ public class MainPresenter extends MvpPresenter<MainView> implements Router {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.mapNavigationItem:
-                        App.getRouter().goToMap();
+                        getRouter().goToMap();
                         break;
                     default:
-                        App.getRouter().goToObjectList();
+                        getRouter().goToObjectList();
                         break;
                 }
                 return true;
@@ -80,12 +73,12 @@ public class MainPresenter extends MvpPresenter<MainView> implements Router {
 
             @Override
             public void onPageSelected(int position) {
-                switch (position){
+                switch (position) {
                     case MainViewPagerAdapter.MAP_INDEX:
-                        App.getRouter().goToMap();
+                        getRouter().goToMap();
                         break;
                     default:
-                        App.getRouter().goToObjectList();
+                        getRouter().goToObjectList();
                         break;
                 }
             }
@@ -95,5 +88,9 @@ public class MainPresenter extends MvpPresenter<MainView> implements Router {
 
             }
         };
+    }
+
+    private MainRouter getRouter() {
+        return getViewState();
     }
 }
