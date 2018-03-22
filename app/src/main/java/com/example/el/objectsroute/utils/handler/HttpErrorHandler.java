@@ -28,7 +28,6 @@ public class HttpErrorHandler extends BaseHandler {
         }
     }
 
-    @Override
     public void handleError(Error error, BaseRouter baseRouter) {
         if (error.getThrowable() instanceof UnknownHostException) {
             view.showError(R.string.no_internet_error);

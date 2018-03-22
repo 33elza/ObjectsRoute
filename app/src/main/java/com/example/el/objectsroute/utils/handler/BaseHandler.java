@@ -8,8 +8,6 @@ import com.example.el.objectsroute.router.BaseRouter;
 
 public abstract class BaseHandler {
     public abstract void handleError(Error error);
-
-    public abstract void handleError(Error error, BaseRouter baseRouter);
 }
 
 
