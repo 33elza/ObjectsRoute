@@ -1,6 +1,7 @@
 package com.example.el.objectsroute.repository;
 
 import com.example.el.objectsroute.dataclass.ObjectVisitation;
+import com.example.el.objectsroute.ui.fragment.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,8 +72,7 @@ public class NetworkRepository implements INetworkRepository {
         Single<String> visitObject(@Path("user") String user);
     }
 
-
-    public class GoToAuthException extends Exception {
+    public static class GoToAuthException extends Exception {
 
         public GoToAuthException() {
         }

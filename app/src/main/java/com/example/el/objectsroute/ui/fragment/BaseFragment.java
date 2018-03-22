@@ -7,6 +7,7 @@ import android.view.View;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.example.el.objectsroute.R;
 import com.example.el.objectsroute.presentation.view.BaseView;
+import com.example.el.objectsroute.repository.NetworkRepository;
 import com.example.el.objectsroute.router.BaseRouter;
 import com.example.el.objectsroute.ui.activity.AuthorizationActivity;
 import com.example.el.objectsroute.ui.activity.BaseActivity;
@@ -55,11 +56,17 @@ public class BaseFragment extends MvpAppCompatFragment implements BaseView, Base
 
     @Override
     public void goToAuthorization() {
-        final Intent intent = new Intent(getContext(), AuthorizationActivity.class);
-        startActivity(intent);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        try {
+            final Intent intent = new Intent(getContext(), AuthorizationActivity.class);
+            startActivity(intent);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        getActivity().finish();
+            getActivity().finish();
+            throw new NetworkRepository.GoToAuthException("Ошибка");
+
+        } catch (NetworkRepository.GoToAuthException e) {
+            e.printStackTrace();
+        }
     }
 }
 
