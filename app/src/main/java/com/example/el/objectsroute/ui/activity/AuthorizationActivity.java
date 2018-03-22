@@ -38,7 +38,7 @@ public class AuthorizationActivity extends BaseActivity implements Authorization
     }
 
     @Override
-    public void finishActivity() {
+    public void goToMain() {
         finish();
 
         final Intent intent = new Intent(this, MainActivity.class);

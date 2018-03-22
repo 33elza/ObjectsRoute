@@ -7,12 +7,11 @@ import android.view.MenuItem;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import com.example.el.objectsroute.App;
 import com.example.el.objectsroute.R;
 import com.example.el.objectsroute.dataclass.Response;
 import com.example.el.objectsroute.interactor.GetAuthStatusInteractor;
 import com.example.el.objectsroute.presentation.view.MainView;
-import com.example.el.objectsroute.router.Router;
+import com.example.el.objectsroute.router.MainRouter;
 import com.example.el.objectsroute.ui.adapter.MainViewPagerAdapter;
 
 import org.greenrobot.eventbus.EventBus;
@@ -24,11 +23,9 @@ import org.greenrobot.eventbus.ThreadMode;
  */
 
 @InjectViewState
-public class MainPresenter extends MvpPresenter<MainView> implements Router {
+public class MainPresenter extends MvpPresenter<MainView> {
 
     public void onCreate() {
-        App.setRouter(this);
-
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
@@ -46,28 +43,8 @@ public class MainPresenter extends MvpPresenter<MainView> implements Router {
         if (response.isAuthorized()) {
             getViewState().setupInitialState();
         } else {
-            App.getRouter().goToAuthorization();
+            getRouter().goToAuthorization();
         }
-    }
-
-    @Override
-    public void goToMap() {
-        getViewState().goToMap();
-    }
-
-    @Override
-    public void goBack() {
-        getViewState().goBack();
-    }
-
-    @Override
-    public void goToAuthorization() {
-        getViewState().goToAuthorization();
-    }
-
-    @Override
-    public void goToObjectList() {
-        getViewState().goToObjectList();
     }
 
     public BottomNavigationView.OnNavigationItemSelectedListener getOnNavigationItemSelectedListener() {
@@ -76,10 +53,10 @@ public class MainPresenter extends MvpPresenter<MainView> implements Router {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.mapNavigationItem:
-                        App.getRouter().goToMap();
+                        getRouter().goToMap();
                         break;
                     default:
-                        App.getRouter().goToObjectList();
+                        getRouter().goToObjectList();
                         break;
                 }
                 return true;
@@ -98,10 +75,10 @@ public class MainPresenter extends MvpPresenter<MainView> implements Router {
             public void onPageSelected(int position) {
                 switch (position) {
                     case MainViewPagerAdapter.MAP_INDEX:
-                        App.getRouter().goToMap();
+                        getRouter().goToMap();
                         break;
                     default:
-                        App.getRouter().goToObjectList();
+                        getRouter().goToObjectList();
                         break;
                 }
             }
@@ -111,5 +88,9 @@ public class MainPresenter extends MvpPresenter<MainView> implements Router {
 
             }
         };
+    }
+
+    private MainRouter getRouter() {
+        return getViewState();
     }
 }

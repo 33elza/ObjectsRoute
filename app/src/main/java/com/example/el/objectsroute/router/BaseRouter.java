@@ -4,7 +4,9 @@ package com.example.el.objectsroute.router;
  * Created by el on 22.03.2018.
  */
 
-public interface AuthorizationRouter {
+public interface BaseRouter {
 
-    void goToMain();
+    void goBack();
+
+    void goToAuthorization();
 }

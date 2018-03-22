@@ -24,7 +24,7 @@ import org.greenrobot.eventbus.ThreadMode;
  */
 
 @InjectViewState
-public class AuthorizationPresenter extends MvpPresenter<AuthorizationView> implements AuthorizationRouter {
+public class AuthorizationPresenter extends MvpPresenter<AuthorizationView> {
 
     private EmailValidator emailValidator;
     private PasswordValidator passwordValidator;
@@ -84,7 +84,7 @@ public class AuthorizationPresenter extends MvpPresenter<AuthorizationView> impl
         if (response.hasError()) {
             new HttpErrorHandler(getViewState()).handleError(response.getError());
         } else {
-            finishActivity();
+            getRouter().goToMain();
         }
     }
 
@@ -126,8 +126,8 @@ public class AuthorizationPresenter extends MvpPresenter<AuthorizationView> impl
         };
     }
 
-    @Override
-    public void finishActivity() {
-        getViewState().finishActivity();
+    private AuthorizationRouter getRouter() {
+        return getViewState();
     }
+
 }
