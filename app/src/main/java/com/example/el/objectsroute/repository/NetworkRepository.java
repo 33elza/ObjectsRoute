@@ -56,6 +56,7 @@ public class NetworkRepository implements INetworkRepository {
             public void subscribe(SingleEmitter<List<ObjectVisitation>> emitter) throws Exception {
                 Thread.sleep(5000);
                 emitter.onSuccess(visitationList);
+                // TODO: 22.03.2018  throw new GoToAuthException();
             }
         }).observeOn(Schedulers.io());
     }
