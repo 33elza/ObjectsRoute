@@ -10,6 +10,7 @@ import com.example.el.objectsroute.dataclass.ObjectVisitation;
 import com.example.el.objectsroute.dataclass.Response;
 import com.example.el.objectsroute.interactor.VisitObjectInteractor;
 import com.example.el.objectsroute.presentation.view.ObjectListView;
+import com.example.el.objectsroute.router.ObjectListRouter;
 import com.example.el.objectsroute.ui.adapter.ObjectListAdapter;
 import com.example.el.objectsroute.utils.handler.HttpErrorHandler;
 
@@ -51,7 +52,7 @@ public class ObjectListPresenter extends MvpPresenter<ObjectListView> {
     public void onObjectsEvent(Response.ObjectListResponse response) {
         getViewState().hideProgressBar();
         if (response.hasError()) {
-            new HttpErrorHandler(getViewState()).handleError(response.getError());
+            new HttpErrorHandler(getViewState()).handleError(response.getError(), getRouter());
         } else {
             objects = response.getData();
             getViewState().setObjects(objects);
@@ -98,5 +99,9 @@ public class ObjectListPresenter extends MvpPresenter<ObjectListView> {
             response.getData().setVisited(true);
             getViewState().reloadObject(selectedObjectIndex);
         }
+    }
+
+    public ObjectListRouter getRouter() {
+        return getViewState();
     }
 }
