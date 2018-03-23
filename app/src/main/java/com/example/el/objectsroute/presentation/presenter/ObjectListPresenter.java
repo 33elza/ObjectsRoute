@@ -37,8 +37,6 @@ public class ObjectListPresenter extends MvpPresenter<ObjectListView> {
         }
         if (objects == null) {
             getViewState().showProgressBar();
-        } else {
-            getViewState().hideProgressBar();
         }
     }
 

@@ -37,8 +37,6 @@ public class MapPresenter extends MvpPresenter<MapView> {
         if (objects == null) {
             getViewState().showProgressBar();
             getObjects();
-        } else {
-            getViewState().hideProgressBar();
         }
     }
 
@@ -56,7 +54,7 @@ public class MapPresenter extends MvpPresenter<MapView> {
     public void onObjectsEvent(Response.ObjectsResponse response) {
         getViewState().hideProgressBar();
         if (response.hasError()) {
-            new HttpErrorHandler(getViewState()).handleError(response.getError(), getRouter());
+            new HttpErrorHandler(getViewState()).handleError(response.getError());
         } else {
             objects = response.getData();
             getViewState().setObjectMarkers(objects);
