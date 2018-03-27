@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.el.objectsroute.App;
 import com.example.el.objectsroute.dataclass.ObjectVisitation;
+import com.example.el.objectsroute.dataclass.PriorityType;
 import com.example.el.objectsroute.utils.helper.DBHelper;
 
 import java.util.ArrayList;
@@ -54,7 +55,7 @@ public class DbRepository implements IDbRepository {
             cv.put(ADDRESS_COLUMN, object.getAddress());
             cv.put(LAT_COLUMN, object.getLat());
             cv.put(LNG_COLUMN, object.getLng());
-            cv.put(PRIORITY_COLUMN, object.getPriority());
+            cv.put(PRIORITY_COLUMN, (object.getPriority().equals("срочный") ? PriorityType.HIGH : PriorityType.LOW));
             cv.put(WORK_COLUMN, object.getWork());
             cv.put(TIME_COLUMN, object.getTime());
             cv.put(INSTRUMENTS_COLUMN, object.getInstruments());

@@ -151,7 +151,7 @@ public class MapFragment extends BaseFragment implements MapView {
 
         objectInfoViewHolder.nameTextView.setText(object.getName());
         objectInfoViewHolder.addressTextView.setText(object.getAddress());
-        objectInfoViewHolder.priorityTextView.setText(object.getPriority());
+        objectInfoViewHolder.priorityTextView.setText(Integer.parseInt(object.getPriority()) == PriorityType.HIGH ? "срочный" : "обычный");
         objectInfoViewHolder.workTextView.setText(object.getWork());
         objectInfoViewHolder.instrumentsTextView.setText(object.getInstruments());
         objectInfoViewHolder.visitTextView.setEnabled(!object.isVisited());
@@ -210,7 +210,7 @@ public class MapFragment extends BaseFragment implements MapView {
         final int icon;
         if (object.isVisited()) {
             icon = R.drawable.ic_place_gray_36dp;
-        } else if (object.getPriority().equals(PriorityType.HIGH)) {
+        } else if (Integer.parseInt(object.getPriority()) == PriorityType.HIGH) {
             icon = R.drawable.ic_place_red_36dp;
         } else {
             icon = R.drawable.ic_place_green_36dp;

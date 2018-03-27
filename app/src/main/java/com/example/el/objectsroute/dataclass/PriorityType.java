@@ -5,7 +5,7 @@ package com.example.el.objectsroute.dataclass;
  */
 
 public class PriorityType {
-    public static final String HIGH = "срочный";
+    public static final int HIGH = 1;
 
-    public static final String LOW = "обычный";
+    public static final int LOW = 0;
 }
