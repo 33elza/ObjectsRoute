@@ -23,13 +23,13 @@ public class VisitObjectInteractor {
 
     public void visitObject(final ObjectVisitation object) {
 
-        networkRepository.visitObject(object).doOnSuccess(new Consumer() {
+        networkRepository.visitObject(object).doOnSuccess(new Consumer<Object>() {
             @Override
             public void accept(Object o) throws Exception {
                 object.setVisited(true);
                 dbRepository.updateObject(object);
             }
-        }).subscribe(new Consumer() {
+        }).subscribe(new Consumer<Object>() {
             @Override
             public void accept(Object o) throws Exception {
                 EventBus.getDefault().post(new Response.VisitObjectResponse(object));

@@ -209,7 +209,7 @@ public class MapFragment extends BaseFragment implements MapView {
     private BitmapDescriptor getMarkerIcon(ObjectVisitation object) {
         final int icon;
         if (object.isVisited()) {
-            icon = R.drawable.ic_place_black_36dp;
+            icon = R.drawable.ic_place_gray_36dp;
         } else if (object.getPriority().equals(PriorityType.HIGH)) {
             icon = R.drawable.ic_place_red_36dp;
         } else {
