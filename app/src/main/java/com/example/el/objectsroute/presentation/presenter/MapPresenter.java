@@ -101,10 +101,11 @@ public class MapPresenter extends MvpPresenter<MapView> {
         } else {
             response.getData().setVisited(true);
             getViewState().setObjectInfo(response.getData());
+            getViewState().redrawMarkers();
         }
     }
 
-    public MapRouter getRouter(){
+    public MapRouter getRouter() {
         return getViewState();
     }
 }
