@@ -151,7 +151,7 @@ public class MapFragment extends BaseFragment implements MapView {
 
         objectInfoViewHolder.nameTextView.setText(object.getName());
         objectInfoViewHolder.addressTextView.setText(object.getAddress());
-        objectInfoViewHolder.priorityTextView.setText(Integer.parseInt(object.getPriority()) == PriorityType.HIGH ? "срочный" : "обычный");
+        objectInfoViewHolder.priorityTextView.setText(Integer.parseInt(object.getPriority()) == PriorityType.HIGH ? R.string.priority_high : R.string.priority_low);
         objectInfoViewHolder.workTextView.setText(object.getWork());
         objectInfoViewHolder.instrumentsTextView.setText(object.getInstruments());
         objectInfoViewHolder.visitTextView.setEnabled(!object.isVisited());

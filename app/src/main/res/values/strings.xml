@@ -12,7 +12,8 @@
     <string name="dialog_button_no">Нет</string>
     <string name="map_nav_title">Карта</string>
     <string name="list_nav_title">Список объектов</string>
-
+    <string name="priority_high">срочный</string>
+    <string name="priority_low">обычный</string>
 
     <!--Errors-->
     <string name="empty_email_error">E-mail не заполнен</string>
