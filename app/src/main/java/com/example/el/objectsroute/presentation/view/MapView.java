@@ -20,4 +20,6 @@ public interface MapView extends MvpView, BaseView, MapRouter {
     void setObjectInfo(final ObjectVisitation object);
 
     void showObjectInfo();
+
+    void redrawMarkers();
 }

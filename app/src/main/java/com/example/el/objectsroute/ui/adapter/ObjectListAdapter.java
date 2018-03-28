@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.el.objectsroute.R;
 import com.example.el.objectsroute.dataclass.ObjectVisitation;
+import com.example.el.objectsroute.dataclass.PriorityType;
 
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class ObjectListAdapter extends RecyclerView.Adapter<ObjectListAdapter.Ob
         holder.nameTextView.setText(object.getName());
         holder.workTextView.setText(object.getWork());
         holder.instrumentsTextView.setText(object.getInstruments());
-        holder.priorityTextView.setText(object.getPriority());
+        holder.priorityTextView.setText(Integer.parseInt(object.getPriority()) == PriorityType.HIGH ? R.string.priority_high : R.string.priority_low );
         holder.visitTextView.setEnabled(!object.isVisited());
         holder.visitTextView.setText(object.isVisited() ? R.string.is_visited_text : R.string.visit_text);
 

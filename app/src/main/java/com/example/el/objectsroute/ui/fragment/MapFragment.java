@@ -10,11 +10,14 @@ import android.widget.TextView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.el.objectsroute.R;
 import com.example.el.objectsroute.dataclass.ObjectVisitation;
+import com.example.el.objectsroute.dataclass.PriorityType;
 import com.example.el.objectsroute.presentation.presenter.MapPresenter;
 import com.example.el.objectsroute.presentation.view.MapView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -148,7 +151,7 @@ public class MapFragment extends BaseFragment implements MapView {
 
         objectInfoViewHolder.nameTextView.setText(object.getName());
         objectInfoViewHolder.addressTextView.setText(object.getAddress());
-        objectInfoViewHolder.priorityTextView.setText(object.getPriority());
+        objectInfoViewHolder.priorityTextView.setText(Integer.parseInt(object.getPriority()) == PriorityType.HIGH ? R.string.priority_high : R.string.priority_low);
         objectInfoViewHolder.workTextView.setText(object.getWork());
         objectInfoViewHolder.instrumentsTextView.setText(object.getInstruments());
         objectInfoViewHolder.visitTextView.setEnabled(!object.isVisited());
@@ -169,19 +172,11 @@ public class MapFragment extends BaseFragment implements MapView {
     private void drawMarkers() {
         if (map == null) return;
 
-        map.clear();
-
         if (objects == null || objects.isEmpty()) return;
 
         boundsBuilder = new LatLngBounds.Builder();
 
-        Marker marker;
-        for (ObjectVisitation object : objects) {
-            marker = map.addMarker(new MarkerOptions()
-                    .position(new LatLng(object.getLat(), object.getLng())).title(object.getName()));
-            marker.setTag(object);
-            boundsBuilder.include(new LatLng(object.getLat(), object.getLng()));
-        }
+        redrawMarkers();
 
         if (previousCameraPosition != null) {
             map.moveCamera(CameraUpdateFactory.newCameraPosition(previousCameraPosition));
@@ -191,6 +186,36 @@ public class MapFragment extends BaseFragment implements MapView {
                     getResources().getDisplayMetrics().heightPixels,
                     BOUNDS_PADDING));
         }
+    }
+
+    public void redrawMarkers() {
+        if (map == null) return;
+
+        map.clear();
+
+        if (objects == null || objects.isEmpty()) return;
+
+        Marker marker;
+        for (ObjectVisitation objectVisitation : objects) {
+            marker = map.addMarker(new MarkerOptions()
+                    .position(new LatLng(objectVisitation.getLat(), objectVisitation.getLng()))
+                    .title(objectVisitation.getName())
+                    .icon(getMarkerIcon(objectVisitation)));
+            marker.setTag(objectVisitation);
+            boundsBuilder.include(new LatLng(objectVisitation.getLat(), objectVisitation.getLng()));
+        }
+    }
+
+    private BitmapDescriptor getMarkerIcon(ObjectVisitation object) {
+        final int icon;
+        if (object.isVisited()) {
+            icon = R.drawable.ic_place_gray_36dp;
+        } else if (Integer.parseInt(object.getPriority()) == PriorityType.HIGH) {
+            icon = R.drawable.ic_place_red_36dp;
+        } else {
+            icon = R.drawable.ic_place_green_36dp;
+        }
+        return BitmapDescriptorFactory.fromResource(icon);
     }
 
     private class ObjectInfoViewHolder {
