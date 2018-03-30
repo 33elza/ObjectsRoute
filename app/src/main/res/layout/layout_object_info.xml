@@ -8,9 +8,7 @@
         android:id="@+id/priorityLineView"
         android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:alpha="0.8">
-
-    </View>
+        android:alpha="0.8" />
 
     <TextView
         android:id="@+id/objectNameTextView"
