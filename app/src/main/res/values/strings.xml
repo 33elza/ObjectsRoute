@@ -23,6 +23,4 @@
     <string name="invalid_password_error">Пароль должен содержать минимум 8 символов, по крайней мере одна буква и одно число</string>
     <string name="no_internet_error">Отсутствует соединение к сети интернет</string>
     <string name="unknown_error">Произошла неизвестная ошибка</string>
-
-
 </resources>
