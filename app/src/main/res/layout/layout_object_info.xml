@@ -4,6 +4,14 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <View
+        android:id="@+id/priorityLineView"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:alpha="0.8">
+
+    </View>
+
     <TextView
         android:id="@+id/objectNameTextView"
         android:layout_width="wrap_content"
