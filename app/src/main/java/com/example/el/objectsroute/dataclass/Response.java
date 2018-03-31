@@ -76,7 +76,7 @@ public abstract class Response<T> {
         }
     }
 
-    public static class AuthStatusResponse  {
+    public static class AuthStatusResponse {
         private boolean isAuthorized;
 
         public AuthStatusResponse(boolean isAuthorized) {

@@ -1,32 +1,23 @@
-package com.example.el.objectsroute.dataclass;
+package com.example.el.objectsroute.dataclass.http;
 
 /**
- * Created by el on 31.03.2018.
+ * Created by el on 21.02.2018.
  */
 
-public class ObjectVisitation {
+public class ObjectVisitationResponse {
+
     private long id;
     private boolean isVisited;
     private String name;
     private String address;
     private float lat;
     private float lng;
-    private int priority;
+    private String priority;
     private String work;
     private int time;
     private String instruments;
 
-
-    public ObjectVisitation(long id,
-                            boolean isVisited,
-                            String name,
-                            String address,
-                            float lat,
-                            float lng,
-                            int priority,
-                            String work,
-                            int time,
-                            String instruments) {
+    public ObjectVisitationResponse(long id, boolean isVisited, String name, String address, float lat, float lng, String priority, String work, int time, String instruments) {
         this.id = id;
         this.isVisited = isVisited;
         this.name = name;
@@ -87,11 +78,11 @@ public class ObjectVisitation {
         this.lng = lng;
     }
 
-    public int getPriority() {
+    public String getPriority() {
         return priority;
     }
 
-    public void setPriority(int priority) {
+    public void setPriority(String priority) {
         this.priority = priority;
     }
 
@@ -117,5 +108,20 @@ public class ObjectVisitation {
 
     public void setInstruments(String instruments) {
         this.instruments = instruments;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ObjectVisitationResponse that = (ObjectVisitationResponse) o;
+
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (id ^ (id >>> 32));
     }
 }

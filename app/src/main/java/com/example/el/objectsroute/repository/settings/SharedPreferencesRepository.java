@@ -1,4 +1,4 @@
-package com.example.el.objectsroute.repository;
+package com.example.el.objectsroute.repository.settings;
 
 import android.content.Context;
 import android.content.SharedPreferences;

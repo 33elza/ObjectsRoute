@@ -32,7 +32,6 @@ public class ObjectListAdapter extends RecyclerView.Adapter<ObjectListAdapter.Ob
         this.objects = objects;
     }
 
-
     @Override
     public ObjectViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ObjectViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_object, parent, false));
@@ -44,7 +43,7 @@ public class ObjectListAdapter extends RecyclerView.Adapter<ObjectListAdapter.Ob
 
         final ObjectVisitation object = objects.get(position);
 
-        final String priority = App.getAppContext().getString(R.string.priority) + " " + App.getAppContext().getString((Integer.parseInt(object.getPriority()) == PriorityType.HIGH ? R.string.priority_high : R.string.priority_low));
+        final String priority = App.getAppContext().getString(R.string.priority, App.getAppContext().getString(object.getPriority() == PriorityType.HIGH ? R.string.priority_high : R.string.priority_low));
 
         holder.addressTextView.setText(object.getAddress());
         holder.nameTextView.setText(object.getName());
@@ -57,7 +56,7 @@ public class ObjectListAdapter extends RecyclerView.Adapter<ObjectListAdapter.Ob
         if (object.isVisited()) {
             holder.priorityLineView.setBackgroundColor(App.getAppContext().getResources().getColor(R.color.colorVisited));
             holder.priorityTextView.setTextColor(App.getAppContext().getResources().getColor(R.color.colorVisited));
-        } else if (Integer.parseInt(object.getPriority()) == PriorityType.HIGH) {
+        } else if (object.getPriority() == PriorityType.HIGH) {
             holder.priorityLineView.setBackgroundColor(App.getAppContext().getResources().getColor(R.color.colorPriorityHigh));
             holder.priorityTextView.setTextColor(App.getAppContext().getResources().getColor(R.color.colorPriorityHigh));
         } else {
@@ -71,9 +70,11 @@ public class ObjectListAdapter extends RecyclerView.Adapter<ObjectListAdapter.Ob
         return objects == null ? 0 : objects.size();
     }
 
-    class ObjectViewHolder extends RecyclerView.ViewHolder {
+    public interface Listener {
+        void onVisitObjectClick(ObjectVisitation object, int index);
+    }
 
-        private int index;
+    class ObjectViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView addressTextView;
         private final TextView nameTextView;
@@ -82,6 +83,7 @@ public class ObjectListAdapter extends RecyclerView.Adapter<ObjectListAdapter.Ob
         private final TextView priorityTextView;
         private final TextView visitTextView;
         private final View priorityLineView;
+        private int index;
 
         ObjectViewHolder(View itemView) {
             super(itemView);
@@ -100,9 +102,5 @@ public class ObjectListAdapter extends RecyclerView.Adapter<ObjectListAdapter.Ob
             });
             priorityLineView = itemView.findViewById(R.id.priorityLineView);
         }
-    }
-
-    public interface Listener {
-        void onVisitObjectClick(ObjectVisitation object, int index);
     }
 }

@@ -14,7 +14,7 @@
     <string name="list_nav_title">Список объектов</string>
     <string name="priority_high">срочный</string>
     <string name="priority_low">обычный</string>
-    <string name="priority">Приоритет:</string>
+    <string name="priority">Приоритет: %1$s</string>
 
     <!--Errors-->
     <string name="empty_email_error">E-mail не заполнен</string>

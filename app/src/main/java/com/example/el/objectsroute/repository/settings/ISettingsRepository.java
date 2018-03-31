@@ -1,4 +1,4 @@
-package com.example.el.objectsroute.repository;
+package com.example.el.objectsroute.repository.settings;
 
 /**
  * Created by el on 19.02.2018.

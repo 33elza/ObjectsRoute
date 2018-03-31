@@ -149,7 +149,7 @@ public class MapFragment extends BaseFragment implements MapView {
 
         if (object == null) return;
 
-        final String priority = getString(R.string.priority) + " " + getString((Integer.parseInt(object.getPriority()) == PriorityType.HIGH ? R.string.priority_high : R.string.priority_low));
+        final String priority = getString(R.string.priority, getString(object.getPriority() == PriorityType.HIGH ? R.string.priority_high : R.string.priority_low));
 
         objectInfoViewHolder.nameTextView.setText(object.getName());
         objectInfoViewHolder.addressTextView.setText(object.getAddress());
@@ -168,7 +168,7 @@ public class MapFragment extends BaseFragment implements MapView {
         if (object.isVisited()) {
             objectInfoViewHolder.priorityLineView.setBackgroundColor(getResources().getColor(R.color.colorVisited));
             objectInfoViewHolder.priorityTextView.setTextColor(getResources().getColor(R.color.colorVisited));
-        } else if (Integer.parseInt(object.getPriority()) == PriorityType.HIGH) {
+        } else if (object.getPriority() == PriorityType.HIGH) {
             objectInfoViewHolder.priorityLineView.setBackgroundColor(getResources().getColor(R.color.colorPriorityHigh));
             objectInfoViewHolder.priorityTextView.setTextColor(getResources().getColor(R.color.colorPriorityHigh));
         } else {
@@ -223,7 +223,7 @@ public class MapFragment extends BaseFragment implements MapView {
         final int icon;
         if (object.isVisited()) {
             icon = R.drawable.ic_place_gray_36dp;
-        } else if (Integer.parseInt(object.getPriority()) == PriorityType.HIGH) {
+        } else if (object.getPriority() == PriorityType.HIGH) {
             icon = R.drawable.ic_place_red_36dp;
         } else {
             icon = R.drawable.ic_place_green_36dp;
