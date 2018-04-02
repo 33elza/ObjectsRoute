@@ -1,11 +1,15 @@
 package com.example.el.objectsroute.ui.fragment;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.el.objectsroute.R;
@@ -26,6 +30,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 
+import static android.support.v4.content.ContextCompat.checkSelfPermission;
+
 
 /**
  * Created by el on 12.02.2018.
@@ -33,22 +39,20 @@ import java.util.List;
 
 public class MapFragment extends BaseFragment implements MapView {
 
+    private static final int PERMISSION_REQUEST_CODE = 1;
+    private static final String KEY_CAMERA_POSITION = "camera_position";
+    private final int BOUNDS_PADDING = 50;
+
     @InjectPresenter
     MapPresenter presenter;
 
     private GoogleMap map;
     private com.google.android.gms.maps.MapView mapView;
     private LatLngBounds.Builder boundsBuilder;
-    private final int BOUNDS_PADDING = 50;
-
     private ObjectInfoViewHolder objectInfoViewHolder;
-
     private BottomSheetDialog bottomSheetDialog;
-
     private List<ObjectVisitation> objects;
-
     private CameraPosition previousCameraPosition;
-    private static final String KEY_CAMERA_POSITION = "camera_position";
 
     public static MapFragment getInstance() {
         return new MapFragment();
@@ -86,6 +90,18 @@ public class MapFragment extends BaseFragment implements MapView {
                 map = googleMap;
                 map.getUiSettings().setZoomControlsEnabled(true);
 
+                if (checkSelfPermission(getContext(),
+                        Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    map.setMyLocationEnabled(true);
+                    map.getUiSettings().setMyLocationButtonEnabled(true);
+                } else {
+                    requestPermissions(new String[]{
+                                    Manifest.permission.ACCESS_FINE_LOCATION,
+                                    Manifest.permission.ACCESS_COARSE_LOCATION
+                            },
+                            PERMISSION_REQUEST_CODE);
+                }
+
                 map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
@@ -106,6 +122,19 @@ public class MapFragment extends BaseFragment implements MapView {
         bottomSheetDialog.setContentView(bottomInfoView);
 
         return rootView;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (permissions.length == 2 &&
+                    permissions[0].equals(Manifest.permission.ACCESS_FINE_LOCATION) &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) return;
+                map.setMyLocationEnabled(true);
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
