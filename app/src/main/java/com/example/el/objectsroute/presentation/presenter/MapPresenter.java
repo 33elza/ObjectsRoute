@@ -88,7 +88,7 @@ public class MapPresenter extends MvpPresenter<MapView> {
                 });
     }
 
-    private void visitObject(final com.example.el.objectsroute.dataclass.ObjectVisitation object) {
+    private void visitObject(final ObjectVisitation object) {
         getViewState().showProgressBar();
         new VisitObjectInteractor().visitObject(object);
     }

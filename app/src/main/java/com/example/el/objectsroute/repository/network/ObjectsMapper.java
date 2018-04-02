@@ -2,6 +2,7 @@ package com.example.el.objectsroute.repository.network;
 
 import com.example.el.objectsroute.App;
 import com.example.el.objectsroute.R;
+import com.example.el.objectsroute.dataclass.ObjectVisitation;
 import com.example.el.objectsroute.dataclass.PriorityType;
 import com.example.el.objectsroute.dataclass.http.ObjectVisitationResponse;
 
@@ -14,11 +15,11 @@ import java.util.List;
 
 public class ObjectsMapper {
 
-    public List<com.example.el.objectsroute.dataclass.ObjectVisitation> map(List<ObjectVisitationResponse> objectVisitationResponseList) {
-        List<com.example.el.objectsroute.dataclass.ObjectVisitation> objects = new ArrayList<>();
+    public List<ObjectVisitation> map(List<ObjectVisitationResponse> objectVisitationResponseList) {
+        List<ObjectVisitation> objects = new ArrayList<>();
 
         for (ObjectVisitationResponse objectVisitation : objectVisitationResponseList) {
-            objects.add(new com.example.el.objectsroute.dataclass.ObjectVisitation(objectVisitation.getId(),
+            objects.add(new ObjectVisitation(objectVisitation.getId(),
                     objectVisitation.isVisited(),
                     objectVisitation.getName(),
                     objectVisitation.getAddress(),
