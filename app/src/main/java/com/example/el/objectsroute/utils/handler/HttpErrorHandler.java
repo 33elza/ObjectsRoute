@@ -3,7 +3,7 @@ package com.example.el.objectsroute.utils.handler;
 import com.example.el.objectsroute.R;
 import com.example.el.objectsroute.dataclass.Error;
 import com.example.el.objectsroute.presentation.view.BaseView;
-import com.example.el.objectsroute.repository.NetworkRepository;
+import com.example.el.objectsroute.repository.network.NetworkRepository;
 import com.example.el.objectsroute.router.BaseRouter;
 
 import java.net.UnknownHostException;

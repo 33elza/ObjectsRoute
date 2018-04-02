@@ -1,8 +1,8 @@
 package com.example.el.objectsroute.interactor;
 
 import com.example.el.objectsroute.dataclass.Response;
-import com.example.el.objectsroute.repository.ISettingsRepository;
-import com.example.el.objectsroute.repository.SharedPreferencesRepository;
+import com.example.el.objectsroute.repository.settings.ISettingsRepository;
+import com.example.el.objectsroute.repository.settings.SharedPreferencesRepository;
 
 import org.greenrobot.eventbus.EventBus;
 

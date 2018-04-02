@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.el.objectsroute.App;
 import com.example.el.objectsroute.R;
 import com.example.el.objectsroute.dataclass.ObjectVisitation;
 import com.example.el.objectsroute.dataclass.PriorityType;
@@ -31,7 +32,6 @@ public class ObjectListAdapter extends RecyclerView.Adapter<ObjectListAdapter.Ob
         this.objects = objects;
     }
 
-
     @Override
     public ObjectViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ObjectViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_object, parent, false));
@@ -43,14 +43,26 @@ public class ObjectListAdapter extends RecyclerView.Adapter<ObjectListAdapter.Ob
 
         final ObjectVisitation object = objects.get(position);
 
+        final String priority = App.getAppContext().getString(R.string.priority, App.getAppContext().getString(object.getPriority() == PriorityType.HIGH ? R.string.priority_high : R.string.priority_low));
+
         holder.addressTextView.setText(object.getAddress());
         holder.nameTextView.setText(object.getName());
         holder.workTextView.setText(object.getWork());
         holder.instrumentsTextView.setText(object.getInstruments());
-        holder.priorityTextView.setText(Integer.parseInt(object.getPriority()) == PriorityType.HIGH ? R.string.priority_high : R.string.priority_low );
+        holder.priorityTextView.setText(priority);
         holder.visitTextView.setEnabled(!object.isVisited());
         holder.visitTextView.setText(object.isVisited() ? R.string.is_visited_text : R.string.visit_text);
 
+        if (object.isVisited()) {
+            holder.priorityLineView.setBackgroundColor(App.getAppContext().getResources().getColor(R.color.colorVisited));
+            holder.priorityTextView.setTextColor(App.getAppContext().getResources().getColor(R.color.colorVisited));
+        } else if (object.getPriority() == PriorityType.HIGH) {
+            holder.priorityLineView.setBackgroundColor(App.getAppContext().getResources().getColor(R.color.colorPriorityHigh));
+            holder.priorityTextView.setTextColor(App.getAppContext().getResources().getColor(R.color.colorPriorityHigh));
+        } else {
+            holder.priorityLineView.setBackgroundColor(App.getAppContext().getResources().getColor(R.color.colorPriorityLow));
+            holder.priorityTextView.setTextColor(App.getAppContext().getResources().getColor(R.color.colorPriorityLow));
+        }
     }
 
     @Override
@@ -58,9 +70,11 @@ public class ObjectListAdapter extends RecyclerView.Adapter<ObjectListAdapter.Ob
         return objects == null ? 0 : objects.size();
     }
 
-    class ObjectViewHolder extends RecyclerView.ViewHolder {
+    public interface Listener {
+        void onVisitObjectClick(ObjectVisitation object, int index);
+    }
 
-        private int index;
+    class ObjectViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView addressTextView;
         private final TextView nameTextView;
@@ -68,6 +82,8 @@ public class ObjectListAdapter extends RecyclerView.Adapter<ObjectListAdapter.Ob
         private final TextView instrumentsTextView;
         private final TextView priorityTextView;
         private final TextView visitTextView;
+        private final View priorityLineView;
+        private int index;
 
         ObjectViewHolder(View itemView) {
             super(itemView);
@@ -84,10 +100,7 @@ public class ObjectListAdapter extends RecyclerView.Adapter<ObjectListAdapter.Ob
                     listener.onVisitObjectClick(objects.get(index), index);
                 }
             });
+            priorityLineView = itemView.findViewById(R.id.priorityLineView);
         }
-    }
-
-    public interface Listener {
-        void onVisitObjectClick(ObjectVisitation object, int index);
     }
 }

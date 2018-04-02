@@ -149,9 +149,11 @@ public class MapFragment extends BaseFragment implements MapView {
 
         if (object == null) return;
 
+        final String priority = getString(R.string.priority, getString(object.getPriority() == PriorityType.HIGH ? R.string.priority_high : R.string.priority_low));
+
         objectInfoViewHolder.nameTextView.setText(object.getName());
         objectInfoViewHolder.addressTextView.setText(object.getAddress());
-        objectInfoViewHolder.priorityTextView.setText(Integer.parseInt(object.getPriority()) == PriorityType.HIGH ? R.string.priority_high : R.string.priority_low);
+        objectInfoViewHolder.priorityTextView.setText(priority);
         objectInfoViewHolder.workTextView.setText(object.getWork());
         objectInfoViewHolder.instrumentsTextView.setText(object.getInstruments());
         objectInfoViewHolder.visitTextView.setEnabled(!object.isVisited());
@@ -162,6 +164,17 @@ public class MapFragment extends BaseFragment implements MapView {
                 presenter.onVisitTextViewClicked(object);
             }
         });
+
+        if (object.isVisited()) {
+            objectInfoViewHolder.priorityLineView.setBackgroundColor(getResources().getColor(R.color.colorVisited));
+            objectInfoViewHolder.priorityTextView.setTextColor(getResources().getColor(R.color.colorVisited));
+        } else if (object.getPriority() == PriorityType.HIGH) {
+            objectInfoViewHolder.priorityLineView.setBackgroundColor(getResources().getColor(R.color.colorPriorityHigh));
+            objectInfoViewHolder.priorityTextView.setTextColor(getResources().getColor(R.color.colorPriorityHigh));
+        } else {
+            objectInfoViewHolder.priorityLineView.setBackgroundColor(getResources().getColor(R.color.colorPriorityLow));
+            objectInfoViewHolder.priorityTextView.setTextColor(getResources().getColor(R.color.colorPriorityLow));
+        }
     }
 
     @Override
@@ -210,7 +223,7 @@ public class MapFragment extends BaseFragment implements MapView {
         final int icon;
         if (object.isVisited()) {
             icon = R.drawable.ic_place_gray_36dp;
-        } else if (Integer.parseInt(object.getPriority()) == PriorityType.HIGH) {
+        } else if (object.getPriority() == PriorityType.HIGH) {
             icon = R.drawable.ic_place_red_36dp;
         } else {
             icon = R.drawable.ic_place_green_36dp;
@@ -225,6 +238,7 @@ public class MapFragment extends BaseFragment implements MapView {
         private final TextView instrumentsTextView;
         private final TextView priorityTextView;
         private final TextView visitTextView;
+        private final View priorityLineView;
 
         private ObjectInfoViewHolder(View rootView) {
             addressTextView = rootView.findViewById(R.id.addressTextView);
@@ -233,6 +247,7 @@ public class MapFragment extends BaseFragment implements MapView {
             instrumentsTextView = rootView.findViewById(R.id.instrumentsTextView);
             priorityTextView = rootView.findViewById(R.id.priorityTextView);
             visitTextView = rootView.findViewById(R.id.visitTextView);
+            priorityLineView = rootView.findViewById(R.id.priorityLineView);
         }
     }
 }

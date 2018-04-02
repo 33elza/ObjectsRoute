@@ -1,13 +1,11 @@
-package com.example.el.objectsroute.repository;
+package com.example.el.objectsroute.repository.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.el.objectsroute.App;
-import com.example.el.objectsroute.R;
 import com.example.el.objectsroute.dataclass.ObjectVisitation;
-import com.example.el.objectsroute.dataclass.PriorityType;
 import com.example.el.objectsroute.utils.helper.DBHelper;
 
 import java.util.ArrayList;
@@ -34,7 +32,6 @@ public class DbRepository implements IDbRepository {
 
     private SQLiteDatabase db;
 
-
     private DbRepository() {
         db = new DBHelper(App.getAppContext()).getWritableDatabase();
     }
@@ -56,7 +53,7 @@ public class DbRepository implements IDbRepository {
             cv.put(ADDRESS_COLUMN, object.getAddress());
             cv.put(LAT_COLUMN, object.getLat());
             cv.put(LNG_COLUMN, object.getLng());
-            cv.put(PRIORITY_COLUMN, (object.getPriority().equals(App.getAppContext().getString(R.string.priority_high)) ? PriorityType.HIGH : PriorityType.LOW));
+            cv.put(PRIORITY_COLUMN, object.getPriority());
             cv.put(WORK_COLUMN, object.getWork());
             cv.put(TIME_COLUMN, object.getTime());
             cv.put(INSTRUMENTS_COLUMN, object.getInstruments());
@@ -92,7 +89,7 @@ public class DbRepository implements IDbRepository {
                         cursor.getString(addressColIndex),
                         cursor.getFloat(latColIndex),
                         cursor.getFloat(lngColIndex),
-                        cursor.getString(priorityColIndex),
+                        cursor.getInt(priorityColIndex),
                         cursor.getString(workColIndex),
                         cursor.getInt(timeColIndex),
                         cursor.getString(instrumentsColIndex)));

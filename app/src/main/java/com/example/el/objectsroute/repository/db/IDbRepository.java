@@ -1,4 +1,4 @@
-package com.example.el.objectsroute.repository;
+package com.example.el.objectsroute.repository.db;
 
 import com.example.el.objectsroute.dataclass.ObjectVisitation;
 

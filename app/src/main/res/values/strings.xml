@@ -14,6 +14,7 @@
     <string name="list_nav_title">Список объектов</string>
     <string name="priority_high">срочный</string>
     <string name="priority_low">обычный</string>
+    <string name="priority">Приоритет: %1$s</string>
 
     <!--Errors-->
     <string name="empty_email_error">E-mail не заполнен</string>
@@ -22,5 +23,4 @@
     <string name="invalid_password_error">Пароль должен содержать минимум 8 символов, по крайней мере одна буква и одно число</string>
     <string name="no_internet_error">Отсутствует соединение к сети интернет</string>
     <string name="unknown_error">Произошла неизвестная ошибка</string>
-
 </resources>
