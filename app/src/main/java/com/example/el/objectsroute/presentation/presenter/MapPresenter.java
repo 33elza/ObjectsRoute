@@ -9,6 +9,7 @@ import com.example.el.objectsroute.R;
 import com.example.el.objectsroute.dataclass.ObjectVisitation;
 import com.example.el.objectsroute.dataclass.Response;
 import com.example.el.objectsroute.interactor.GetObjectsInteractor;
+import com.example.el.objectsroute.interactor.GetRouteInteractor;
 import com.example.el.objectsroute.interactor.RequestType;
 import com.example.el.objectsroute.interactor.VisitObjectInteractor;
 import com.example.el.objectsroute.presentation.view.MapView;
@@ -29,6 +30,7 @@ import java.util.List;
 public class MapPresenter extends MvpPresenter<MapView> {
 
     private List<ObjectVisitation> objects;
+    private String points;
 
     public void onCreate(Bundle arguments) {
         if (!EventBus.getDefault().isRegistered(this)) {
@@ -38,12 +40,17 @@ public class MapPresenter extends MvpPresenter<MapView> {
             getViewState().showProgressBar();
             getObjects();
         }
+        getRoute();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    private void getRoute() {
+        new GetRouteInteractor().getRoute();
     }
 
     private void getObjects() {
@@ -61,6 +68,15 @@ public class MapPresenter extends MvpPresenter<MapView> {
 
             // TODO: 14.03.2018 Отправлять отсортированный список 
             EventBus.getDefault().post(new Response.ObjectListResponse(response.getData()));
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onRouteEvent(Response.RouteResponse response) {
+        if (response.hasError()) {
+            new HttpErrorHandler(getViewState()).handleError(response.getError());
+        } else {
+            points = response.getData().getPoints();
         }
     }
 

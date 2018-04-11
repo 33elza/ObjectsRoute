@@ -1,5 +1,7 @@
 package com.example.el.objectsroute.interactor;
 
+import android.annotation.SuppressLint;
+
 import com.example.el.objectsroute.dataclass.Error;
 import com.example.el.objectsroute.dataclass.ObjectVisitation;
 import com.example.el.objectsroute.dataclass.Response;
@@ -21,6 +23,7 @@ public class VisitObjectInteractor {
     private INetworkRepository networkRepository = NetworkRepository.getInstance();
     private IDbRepository dbRepository = DbRepository.getInstance();
 
+    @SuppressLint("CheckResult")
     public void visitObject(final ObjectVisitation object) {
 
         networkRepository.visitObject(object).doOnSuccess(new Consumer<Object>() {

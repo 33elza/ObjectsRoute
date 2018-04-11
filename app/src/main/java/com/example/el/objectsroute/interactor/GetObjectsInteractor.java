@@ -1,5 +1,7 @@
 package com.example.el.objectsroute.interactor;
 
+import android.annotation.SuppressLint;
+
 import com.example.el.objectsroute.dataclass.Error;
 import com.example.el.objectsroute.dataclass.ObjectVisitation;
 import com.example.el.objectsroute.dataclass.Response;
@@ -25,6 +27,7 @@ public class GetObjectsInteractor {
     private INetworkRepository networkRepository = NetworkRepository.getInstance();
     private IDbRepository dbRepository = DbRepository.getInstance();
 
+    @SuppressLint("CheckResult")
     public void getObjectList(final int requestType) {
         if (requestType == RequestType.CASH_ONLY || requestType == RequestType.CASH_AND_LOAD) {
             EventBus.getDefault().post(new Response.ObjectsResponse(dbRepository.getObjects()));

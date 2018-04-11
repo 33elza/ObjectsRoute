@@ -87,6 +87,20 @@ public abstract class Response<T> {
             return isAuthorized;
         }
     }
+
+    public static class RouteResponse extends Response<Routes> {
+
+        public RouteResponse(Routes data) {
+            super(data);
+        }
+
+        public RouteResponse(Error error) {
+            super(error);
+        }
+
+        public RouteResponse() {
+        }
+    }
 }
 
 

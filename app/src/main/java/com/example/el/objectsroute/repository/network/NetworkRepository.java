@@ -70,7 +70,6 @@ public class NetworkRepository implements INetworkRepository {
 
     @Override
     public Single<String> visitObject(ObjectVisitation object) {
-
         return service.visitObject("nikitalevchenko");
     }
 
