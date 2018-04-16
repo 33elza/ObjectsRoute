@@ -6,6 +6,7 @@ import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -31,7 +32,7 @@ public class DirectionsRepository implements IDirectionsRepository {
                 .baseUrl("https://maps.googleapis.com/")
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+                //.addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
                 .build()
                 .create(RouteApi.class);
     }
@@ -40,17 +41,17 @@ public class DirectionsRepository implements IDirectionsRepository {
         return ourInstance;
     }
 
-    public Single<Routes> getRoute() {
-        return service.getRoute("Chicago", "Los+Angeles", true, "AIzaSyATkxNMg0MKlrxubdODdPf3S6fSQwEu-o8");
-        //return service.getRoute("Ульяновск, ул. Радищева, 102", "г.Ульяновск, Московское ш., 9", App.getAppContext().getString(R.string.map_key));
+    public Call<Routes> getRoute() {
+      //  return service.getRoute("Chicago", "Los+Angeles", true, "AIzaSyB4kXPE6x0pigU-_X9lUWq7epf5Iw9-RUY");
+        return service.getRoute("Ульяновск, ул. Радищева, 102", "г.Ульяновск, Московское ш., 9", true, "AIzaSyB4kXPE6x0pigU-_X9lUWq7epf5Iw9-RUY");
     }
 
     public interface RouteApi {
         @GET("/maps/api/directions/json")
-        Single<Routes> getRoute(
-                @Query(value = "origin") String origin,
-                @Query(value = "destination") String destination,
-                @Query(value = "sensor") boolean sensor,
-                @Query(value = "key") String key);
+        Call<Routes> getRoute(
+                @Query("origin") String origin,
+                @Query("destination") String destination,
+                @Query("sensor") boolean sensor,
+                @Query("key") String key);
     }
 }

@@ -26,6 +26,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.List;
 
@@ -52,6 +53,7 @@ public class MapFragment extends BaseFragment implements MapView {
     private BottomSheetDialog bottomSheetDialog;
     private List<ObjectVisitation> objects;
     private CameraPosition previousCameraPosition;
+    private List<LatLng> points;
 
     public static MapFragment getInstance() {
         return new MapFragment();
@@ -108,8 +110,12 @@ public class MapFragment extends BaseFragment implements MapView {
                     }
                 });
 
+                drawRoute();
                 if (objects == null || objects.isEmpty()) return;
                 drawMarkers();
+
+                //if (points == null || points.isEmpty()) return;
+
             }
         });
 
@@ -233,7 +239,7 @@ public class MapFragment extends BaseFragment implements MapView {
     public void redrawMarkers() {
         if (map == null) return;
 
-        map.clear();
+       // map.clear();
 
         if (objects == null || objects.isEmpty()) return;
 
@@ -246,6 +252,28 @@ public class MapFragment extends BaseFragment implements MapView {
             marker.setTag(objectVisitation);
             boundsBuilder.include(new LatLng(objectVisitation.getLat(), objectVisitation.getLng()));
         }
+    }
+
+    @Override
+    public void setRoutePoints(List<LatLng> decodedPoints) {
+        this.points = decodedPoints;
+    }
+
+    public void drawRoute() {
+        if (map == null) return;
+
+        if (points == null || points.isEmpty()) return;
+
+        PolylineOptions line = new PolylineOptions();
+        line.width(4f).color(R.color.colorPrimary);
+        LatLngBounds.Builder latLngBuilder = new LatLngBounds.Builder();
+        for (int i = 0; i < points.size(); i++) {
+
+            line.add(points.get(i));
+            latLngBuilder.include(points.get(i));
+        }
+        map.addPolyline(line);
+        int size = getResources().getDisplayMetrics().widthPixels;
     }
 
     private BitmapDescriptor getMarkerIcon(ObjectVisitation object) {
